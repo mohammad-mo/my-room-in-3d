@@ -1,4 +1,4 @@
-# Three.js Journey
+# My Portfolio
 
 ## Setup
 Download [Node.js](https://nodejs.org/en/download/).
