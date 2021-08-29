@@ -9,10 +9,10 @@ import { FlyControls } from 'three/examples/jsm/controls/FlyControls.js'
 /**
  * Base
  */
-// Debug
-const gui = new dat.GUI({
-    width: 400
-})
+// // Debug
+// const gui = new dat.GUI({
+//     width: 400
+// })
 
 // Canvas
 const canvas = document.querySelector('canvas.webgl')
@@ -51,7 +51,7 @@ pointLight.position.set( 0, 2, -9 );
 const bakedTexture = textureLoader.load('woodsBake.jpg')
 const bakedTexture1 = textureLoader.load('woodsBakeBlack.jpg')
 const bakedTexture2 = textureLoader.load('wallBaked.jpg')
-const bakedTexture3 = textureLoader.load('lastBaking.jpg')
+const bakedTexture3 = textureLoader.load('lastBaked.jpg')
 
 
 const bakedMaterial = new THREE.MeshBasicMaterial({ map: bakedTexture })
