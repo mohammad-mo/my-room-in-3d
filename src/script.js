@@ -5,11 +5,13 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import { FlyControls } from 'three/examples/jsm/controls/FlyControls.js'
+import firefliesVertexShader from './shaders/fireflies/vertex.glsl'
+import firefliesFragmentShader from './shaders/fireflies/fragment.glsl'
 
 /**
  * Base
  */
-// // Debug
+// Debug
 // const gui = new dat.GUI({
 //     width: 400
 // })
@@ -34,20 +36,19 @@ dracoLoader.setDecoderPath('draco/')
 const gltfLoader = new GLTFLoader()
 gltfLoader.setDRACOLoader(dracoLoader)
 
+// Portal material
+const portalMaterial = new THREE.MeshBasicMaterial({ color: 0xffffe5 })
+
+// Mirror material
+const mirrorMaterial = new THREE.MeshBasicMaterial({ color: 0xffffe5 })
+
+// Text material
+const textMaterial = new THREE.MeshBasicMaterial({ color: 0xffffe5 })
+
+
 /**
- *  Light
+ * Textures
  */
-// const pointLight = new THREE.PointLight( 0xffffff, 2, 100 );
-// pointLight.position.set( -8, 4, -6 );
-// scene.add( pointLight );
-
-const pointLight = new THREE.PointLight( 0xffffff, 1, 100 );
-pointLight.position.set( 0, 0, 10 );
-scene.add( pointLight )
-const pointLight1 = new THREE.PointLight( 0xffffff, 1, 50 );
-pointLight.position.set( 0, 2, -9 );
-// scene.add( pointLight1 )
-
 const bakedTexture = textureLoader.load('woodsBake.jpg')
 const bakedTexture1 = textureLoader.load('woodsBakeBlack.jpg')
 const bakedTexture2 = textureLoader.load('wallBaked.jpg')
@@ -59,59 +60,88 @@ const bakedMaterial1 = new THREE.MeshBasicMaterial({ map: bakedTexture1 })
 const bakedMaterial2 = new THREE.MeshBasicMaterial({ map: bakedTexture2 })
 const bakedMaterial3 = new THREE.MeshBasicMaterial({ map: bakedTexture3 })
 bakedTexture.flipY = false
+bakedTexture.encoding = THREE.sRGBEncoding
 bakedTexture1.flipY = false
+bakedTexture1.encoding = THREE.sRGBEncoding
 bakedTexture2.flipY = false
+bakedTexture2.encoding = THREE.sRGBEncoding
 bakedTexture3.flipY = false
+bakedTexture3.encoding = THREE.sRGBEncoding
+
 /**
  * Model
  */
 gltfLoader.load(
-    'woodsBake.glb',
-    (gltf) =>
-    {
-        gltf.scene.traverse((child) =>
-        {
-            child.material = bakedMaterial
-        })
-        scene.add(gltf.scene)
-    }
-)
-
-gltfLoader.load(
-    'woodsBakeBlack.glb',
+    'room.glb',
     (gltf) =>
     {
         gltf.scene.traverse((child) =>
         {
             child.material = bakedMaterial1
         })
+        
+
+        const woodsBakeMesh = gltf.scene.children.find(child => child.name === 'Cube008')
+        woodsBakeMesh.material = bakedMaterial
+
+        const panelLightMesh = gltf.scene.children.find(child => child.name === 'panel')
+        const mirrorLightMesh = gltf.scene.children.find(child => child.name === 'mirror')
+        const textLightMesh = gltf.scene.children.find(child => child.name === 'text')
+
+        panelLightMesh.material = portalMaterial
+        mirrorLightMesh.material = mirrorMaterial
+        textLightMesh.material = textMaterial
+
+        const wallBakeMesh = gltf.scene.children.find(child => child.name === 'Cube028')
+        wallBakeMesh.material = bakedMaterial2
+
+        const lastBakedMesh = gltf.scene.children.find(child => child.name === 'Cube180')
+        lastBakedMesh.material = bakedMaterial3
+
         scene.add(gltf.scene)
     }
 )
 
-gltfLoader.load(
-    'wallBaked.glb',
-    (gltf) =>
-    {
-        gltf.scene.traverse((child) =>
-        {
-            child.material = bakedMaterial2
-        })
-        scene.add(gltf.scene)
-    }
-)
+/**
+ * Fireflies
+ */
+// Geometry
+const firefliesGeometry = new THREE.BufferGeometry()
+const firefliesCount = 10
+const positionArray = new Float32Array(firefliesCount * 3)
+const scaleArray = new Float32Array(firefliesCount)
 
-gltfLoader.load(
-    'lastBaked.glb',
-    (gltf) =>
+for(let i = 0; i < firefliesCount; i++)
+{
+    positionArray[i * 3 + 0] = (Math.random() + 0.4) * 4
+    positionArray[i * 3 + 1] = Math.random() * 3
+    positionArray[i * 3 + 2] = (Math.random() + 0.9) * 4
+
+    scaleArray[i] = Math.random()
+}
+
+firefliesGeometry.setAttribute('position', new THREE.BufferAttribute(positionArray, 3))
+firefliesGeometry.setAttribute('aScale', new THREE.BufferAttribute(scaleArray, 1))
+
+// Material
+const firefliesMaterial = new THREE.ShaderMaterial({
+    uniforms:
     {
-        gltf.scene.traverse((child) =>
-        {
-            child.material = bakedMaterial3
-        })
-        scene.add(gltf.scene)
-    }
-)
+        uPixelRatio: { value: Math.min(window.devicePixelRatio, 2) },
+        uSize: { value: 400 },
+        uTime: { value: 0}
+    },
+    vertexShader: firefliesVertexShader,
+    fragmentShader: firefliesFragmentShader,
+    transparent: true,
+    blending: THREE.AdditiveBlending,
+    depthWrite: false
+})
+
+// Points
+const fireflies = new THREE.Points(firefliesGeometry, firefliesMaterial)
+scene.add(fireflies)
+
 /**
  * Sizes
  */
@@ -133,6 +163,9 @@ window.addEventListener('resize', () =>
     // Update renderer
     renderer.setSize(sizes.width, sizes.height)
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+
+    // Update fireflies
+    firefliesMaterial.uniforms.uPixelRatio.value = Math.min(window.devicePixelRatio, 2)
 })
 
 /**
@@ -159,6 +192,7 @@ const renderer = new THREE.WebGLRenderer({
 })
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+renderer.outputEncoding = THREE.sRGBEncoding
 
 /**
  * Animate
@@ -168,6 +202,9 @@ const clock = new THREE.Clock()
 const tick = () =>
 {
     const elapsedTime = clock.getElapsedTime()
+
+    // Update materials
+    firefliesMaterial.uniforms.uTime.value = elapsedTime
 
     // Update controls
     controls.update()
