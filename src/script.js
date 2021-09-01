@@ -7,6 +7,8 @@ import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import { FlyControls } from 'three/examples/jsm/controls/FlyControls.js'
 import firefliesVertexShader from './shaders/fireflies/vertex.glsl'
 import firefliesFragmentShader from './shaders/fireflies/fragment.glsl'
+import panelVertexShader from './shaders/panel/vertex.glsl'
+import panelFragmentShader from './shaders/panel/fragment.glsl'
 
 /**
  * Base
@@ -36,8 +38,17 @@ dracoLoader.setDecoderPath('draco/')
 const gltfLoader = new GLTFLoader()
 gltfLoader.setDRACOLoader(dracoLoader)
 
-// Portal material
-const portalMaterial = new THREE.MeshBasicMaterial({ color: 0xffffe5 })
+// panel material
+const panelMaterial = new THREE.ShaderMaterial({
+    uniforms:
+    {  
+        uTime: { value: 0 },
+        uColorStart: { value: new THREE.Color(0x5e6573) },
+        uColorEnd: { value: new THREE.Color(0xbb4ccf) }
+    },
+    vertexShader: panelVertexShader,
+    fragmentShader: panelFragmentShader
+})
 
 // Mirror material
 const mirrorMaterial = new THREE.MeshBasicMaterial({ color: 0xffffe5 })
@@ -88,7 +99,7 @@ gltfLoader.load(
         const mirrorLightMesh = gltf.scene.children.find(child => child.name === 'mirror')
         const textLightMesh = gltf.scene.children.find(child => child.name === 'text')
 
-        panelLightMesh.material = portalMaterial
+        panelLightMesh.material = panelMaterial
         mirrorLightMesh.material = mirrorMaterial
         textLightMesh.material = textMaterial
 
@@ -128,7 +139,7 @@ const firefliesMaterial = new THREE.ShaderMaterial({
     uniforms:
     {
         uPixelRatio: { value: Math.min(window.devicePixelRatio, 2) },
-        uSize: { value: 400 },
+        uSize: { value: 600 },
         uTime: { value: 0}
     },
     vertexShader: firefliesVertexShader,
@@ -205,6 +216,7 @@ const tick = () =>
 
     // Update materials
     firefliesMaterial.uniforms.uTime.value = elapsedTime
+    panelMaterial.uniforms.uTime.value = elapsedTime
 
     // Update controls
     controls.update()
