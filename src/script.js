@@ -4,11 +4,10 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
-import { FlyControls } from 'three/examples/jsm/controls/FlyControls.js'
-import firefliesVertexShader from './shaders/fireflies/vertex.glsl'
-import firefliesFragmentShader from './shaders/fireflies/fragment.glsl'
 import panelVertexShader from './shaders/panel/vertex.glsl'
 import panelFragmentShader from './shaders/panel/fragment.glsl'
+import { Raycaster } from 'three'
+
 
 /**
  * Base
@@ -86,12 +85,18 @@ gltfLoader.load(
     'room.glb',
     (gltf) =>
     {
-        gltf.scene.traverse((child) =>
-        {
-            child.material = bakedMaterial1
-        })
-        
+        // gltf.scene.traverse((child) =>
+        // {
+        //     console.log(child);
+        //     child.material = bakedMaterial1
+        // })
 
+        const WoodsBakeBlackMesh = gltf.scene.children.find(child => child.name === 'Cube')
+        WoodsBakeBlackMesh.material = bakedMaterial1
+
+        const flowerBakeMesh = gltf.scene.children.find(child => child.name === 'flowers')
+        flowerBakeMesh.material = bakedMaterial1
+        
         const woodsBakeMesh = gltf.scene.children.find(child => child.name === 'Cube008')
         woodsBakeMesh.material = bakedMaterial
 
@@ -109,6 +114,8 @@ gltfLoader.load(
         const lastBakedMesh = gltf.scene.children.find(child => child.name === 'Cube180')
         lastBakedMesh.material = bakedMaterial3
 
+        
+
         scene.add(gltf.scene)
     }
 )
@@ -117,41 +124,57 @@ gltfLoader.load(
  * Fireflies
  */
 // Geometry
-const firefliesGeometry = new THREE.BufferGeometry()
-const firefliesCount = 10
-const positionArray = new Float32Array(firefliesCount * 3)
-const scaleArray = new Float32Array(firefliesCount)
+// const firefliesGeometry = new THREE.BufferGeometry()
+// const firefliesCount = 2
+// const positionArray = new Float32Array(firefliesCount * 3)
+// const scaleArray = new Float32Array(firefliesCount)
 
-for(let i = 0; i < firefliesCount; i++)
-{
-    positionArray[i * 3 + 0] = (Math.random() + 0.4) * 4
-    positionArray[i * 3 + 1] = Math.random() * 3
-    positionArray[i * 3 + 2] = (Math.random() + 0.9) * 4
+// for(let i = 0; i < firefliesCount; i++)
+// {
+//     positionArray[i * 3 + 0] = (Math.random() - 0.2) * 4
+//     positionArray[i * 3 + 1] = Math.random() * 3
+//     positionArray[i * 3 + 2] = (Math.random() + 0.9) * 4
 
-    scaleArray[i] = Math.random()
-}
+//     scaleArray[i] = Math.random()
+// }
 
-firefliesGeometry.setAttribute('position', new THREE.BufferAttribute(positionArray, 3))
-firefliesGeometry.setAttribute('aScale', new THREE.BufferAttribute(scaleArray, 1))
+// firefliesGeometry.setAttribute('position', new THREE.BufferAttribute(positionArray, 3))
+// firefliesGeometry.setAttribute('aScale', new THREE.BufferAttribute(scaleArray, 1))
 
-// Material
-const firefliesMaterial = new THREE.ShaderMaterial({
-    uniforms:
+// // Material
+// const firefliesMaterial = new THREE.ShaderMaterial({
+//     uniforms:
+//     {
+//         uPixelRatio: { value: Math.min(window.devicePixelRatio, 2) },
+//         uSize: { value: 400 },
+//         uTime: { value: 0}
+//     },
+//     vertexShader: firefliesVertexShader,
+//     fragmentShader: firefliesFragmentShader,
+//     transparent: true,
+//     blending: THREE.AdditiveBlending,
+//     depthWrite: false
+// })
+
+// // Points
+// const fireflies = new THREE.Points(firefliesGeometry, firefliesMaterial)
+// scene.add(fireflies)
+
+/**
+ * Points of interest
+ */
+const raycaster = new Raycaster()
+const points = [
     {
-        uPixelRatio: { value: Math.min(window.devicePixelRatio, 2) },
-        uSize: { value: 600 },
-        uTime: { value: 0}
+        position: new THREE.Vector3(- 1.17, 0.5, 2.9),
+        element: document.querySelector('.point-0')
     },
-    vertexShader: firefliesVertexShader,
-    fragmentShader: firefliesFragmentShader,
-    transparent: true,
-    blending: THREE.AdditiveBlending,
-    depthWrite: false
-})
+    {
+        position: new THREE.Vector3(2.5, 0.8, 4.5),
+        element: document.querySelector('.point-1')
+    }
+]
 
-// Points
-const fireflies = new THREE.Points(firefliesGeometry, firefliesMaterial)
-scene.add(fireflies)
 
 /**
  * Sizes
@@ -176,7 +199,7 @@ window.addEventListener('resize', () =>
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
     // Update fireflies
-    firefliesMaterial.uniforms.uPixelRatio.value = Math.min(window.devicePixelRatio, 2)
+    // firefliesMaterial.uniforms.uPixelRatio.value = Math.min(window.devicePixelRatio, 2)
 })
 
 /**
@@ -185,7 +208,7 @@ window.addEventListener('resize', () =>
 // Base camera
 const camera = new THREE.PerspectiveCamera(25, sizes.width / sizes.height, 0.1, 100)
 camera.position.x = -8
-camera.position.y = 5
+camera.position.y = 8
 camera.position.z = -20
 
 scene.add(camera)
@@ -215,11 +238,44 @@ const tick = () =>
     const elapsedTime = clock.getElapsedTime()
 
     // Update materials
-    firefliesMaterial.uniforms.uTime.value = elapsedTime
+    // firefliesMaterial.uniforms.uTime.value = elapsedTime
     panelMaterial.uniforms.uTime.value = elapsedTime
 
     // Update controls
     controls.update()
+
+    // Go through each point
+    for(const point of points)
+    {
+        const screenPosition = point.position.clone()
+        screenPosition.project(camera)
+
+        raycaster.setFromCamera(screenPosition, camera)
+        const intersects = raycaster.intersectObjects(scene.children, true)
+
+        if(intersects.length === 0)
+        {
+            point.element.classList.add('visible')
+        }
+        else
+        {
+            const intersectionDistance = intersects[0].distance
+            const pointDistance = point.position.distanceTo(camera.position)
+
+            if(intersectionDistance < pointDistance)
+            {
+                point.element.classList.remove('visible')   
+            }
+            else
+            {
+                point.element.classList.add('visible') 
+            }
+        }
+        
+        const translateX = screenPosition.x * sizes.width * 0.5
+        const translateY = - screenPosition.y * sizes.height * 0.5
+        point.element.style.transform = `translate(${translateX}px, ${translateY}px)`
+    }
 
     // Render
     renderer.render(scene, camera)

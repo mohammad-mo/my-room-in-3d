@@ -1,19 +1,108 @@
-*
-{
-    margin: 0;
-    padding: 0;
+* {
+  margin: 0;
+  padding: 0;
 }
 
 html,
-body
-{
+body {
+    font-family: Arial, Helvetica, sans-serif;
     overflow: hidden;
 }
 
-.webgl
-{
-    position: fixed;
-    top: 0;
-    left: 0;
-    outline: none;
+.webgl {
+  position: fixed;
+  top: 0;
+  left: 0;
+  outline: none;
+}
+
+.point {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 1;
+}
+
+.point:hover .text,
+.point:active .text {
+    opacity: 1;
+}
+
+.point:hover .text1,
+.point:active .text1 {
+    opacity: 1;
+}
+
+.point .label {
+    user-select: none;
+    cursor: default;
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background-color: #00000077;
+    color: #ffffff;
+    top: -20px;
+    left: -20px;
+    border-radius: 50%;
+    border: 1px solid #ffffff77;
+    text-align: center;
+    line-height: 30px;
+    font-weight: 200;
+    font-size: 11px;
+    transform: scale(0, 0);
+    transition: transform 0.3s;
+}
+
+.point.visible .label {
+    transform: scale(1, 1);
+}
+
+.point .text {
+    position: absolute;
+    top: 10px;
+    left: -170px;
+    width: 300px;
+    padding: 20px;
+    border-radius: 5px;
+    background-color: #00000077;
+    color: #ffffff;
+    line-height: 1.3em;
+    text-align: center;
+    font-weight: 200;
+    font-size: 16px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+
+.point .text1 {
+    display: grid;
+    grid-template: repeat(2, auto) / repeat(2, auto);
+    row-gap: 5px;
+    position: absolute;
+    top: 10px;
+    left: -70px;
+    width: 100px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #00000077;
+    color: #ffffff;
+    line-height: 1.3em;
+    text-align: center;
+    font-weight: 200;
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.github,
+.mail {
+    font-size: 18px;
+    color: #fff;
+}
+
+a {
+    font-size: 16px;
+    text-decoration: none;
+    color: #fff;
 }
