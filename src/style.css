@@ -25,7 +25,7 @@ body {
     right: 5px;
     z-index: 1;
     padding: 5px;
-    border: 2px solid rgb(255, 234, 43);
+    border: 1px solid rgb(255, 234, 43);
     border-radius: 5px;
     transition: all 0.3s;
 }
@@ -45,7 +45,7 @@ body {
     right: 40px;
     z-index: 1;
     padding: 5px;
-    border: 2px solid rgb(255, 234, 43);
+    border: 1px solid rgb(255, 234, 43);
     border-radius: 5px;
     transition: all 0.3s;
 }
@@ -58,8 +58,9 @@ body {
 
 .music {
     position: absolute;
-    font-size: 14px;
-    bottom: 18px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    bottom: 20px;
     right: 80px;
     color: #fff;
     z-index: 1;
