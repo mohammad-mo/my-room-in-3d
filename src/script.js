@@ -5,9 +5,9 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import panelVertexShader from './shaders/panel/vertex.glsl'
+// import topChairVertexShader from './shaders/topChair/vertex.glsl'
 import panelFragmentShader from './shaders/panel/fragment.glsl'
 import { Raycaster } from 'three'
-
 
 /**
  * Base
@@ -55,6 +55,14 @@ const mirrorMaterial = new THREE.MeshBasicMaterial({ color: 0xffffe5 })
 // Text material
 const textMaterial = new THREE.MeshBasicMaterial({ color: 0xffffe5 })
 
+// const topChairMaterial = new THREE.ShaderMaterial({
+//     uniforms:
+//     {
+//         uTime: { value: 0 }
+//     },
+//     vertexShader: topChairVertexShader
+// })
+
 
 /**
  * Textures
@@ -81,6 +89,7 @@ bakedTexture3.encoding = THREE.sRGBEncoding
 /**
  * Model
  */
+ let mixer = null
 gltfLoader.load(
     'room.glb',
     (gltf) =>
@@ -93,6 +102,12 @@ gltfLoader.load(
 
         const WoodsBakeBlackMesh = gltf.scene.children.find(child => child.name === 'Cube')
         WoodsBakeBlackMesh.material = bakedMaterial1
+
+        const chairTopMesh = gltf.scene.children.find(child => child.name === 'chairTop')
+        mixer = new THREE.AnimationMixer(gltf.scene)
+        const action = mixer.clipAction(gltf.animations[0])
+        action.play()
+        chairTopMesh.material = bakedMaterial1
 
         const flowerBakeMesh = gltf.scene.children.find(child => child.name === 'flowers')
         flowerBakeMesh.material = bakedMaterial1
@@ -114,11 +129,10 @@ gltfLoader.load(
         const lastBakedMesh = gltf.scene.children.find(child => child.name === 'Cube180')
         lastBakedMesh.material = bakedMaterial3
 
-        
-
         scene.add(gltf.scene)
     }
 )
+
 
 /**
  * Fireflies
@@ -232,14 +246,22 @@ renderer.outputEncoding = THREE.sRGBEncoding
  * Animate
  */
 const clock = new THREE.Clock()
+let previousTime = 0
 
 const tick = () =>
 {
     const elapsedTime = clock.getElapsedTime()
+    const deltaTime = elapsedTime - previousTime
+    previousTime = elapsedTime
 
     // Update materials
-    // firefliesMaterial.uniforms.uTime.value = elapsedTime
     panelMaterial.uniforms.uTime.value = elapsedTime
+
+    // Update mixer
+    if(mixer !== null)
+    {
+        mixer.update(deltaTime)
+    }
 
     // Update controls
     controls.update()
