@@ -5,9 +5,58 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import panelVertexShader from './shaders/panel/vertex.glsl'
-// import topChairVertexShader from './shaders/topChair/vertex.glsl'
 import panelFragmentShader from './shaders/panel/fragment.glsl'
 import { Raycaster } from 'three'
+
+let playButton = document.getElementById('playButton')
+let pauseButton = document.getElementById('pauseButton')
+let point1 = document.getElementById('point-1')
+let point0 = document.getElementById('point-0')
+let text = document.getElementById('text')
+let text1 = document.getElementById('text1')
+
+"mousemove click".split(" ").forEach((e) =>
+{
+    point0.addEventListener(e, () =>
+    {
+        text.style.opacity = 1
+
+        setTimeout(() =>
+        {
+            text.style.opacity = 0
+        }, 10000)
+        })
+})
+
+"mousemove click".split(" ").forEach((e) =>
+{
+    point1.addEventListener(e, () =>
+    {
+        text1.style.opacity = 1
+        text1.style.pointerEvents = 'initial'
+
+        setTimeout(() =>
+        {
+            text1.style.opacity = 0
+            text1.style.pointerEvents = 'none'
+        }, 10000)
+        })
+})
+
+
+/**
+ * Sound
+ */
+const sound = new Audio('/sound/music.mp3')
+console.log(sound);
+playButton.addEventListener('click', () =>
+{
+    sound.play()
+})
+pauseButton.addEventListener('click', () =>
+{
+    sound.pause()
+})
 
 /**
  * Base
