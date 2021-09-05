@@ -1,11 +1,12 @@
 import './style.css'
-import * as dat from 'dat.gui'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import panelVertexShader from './shaders/panel/vertex.glsl'
 import panelFragmentShader from './shaders/panel/fragment.glsl'
+import mirrorVertexShader from './shaders/mirror/vertex.glsl'
+import mirrorFragmentShader from './shaders/mirror/fragment.glsl'
 import { Raycaster } from 'three'
 
 let playButton = document.getElementById('playButton')
@@ -48,7 +49,7 @@ let text1 = document.getElementById('text1')
  * Sound
  */
 const sound = new Audio('/sound/music.mp3')
-console.log(sound);
+
 playButton.addEventListener('click', () =>
 {
     sound.play()
@@ -99,7 +100,16 @@ const panelMaterial = new THREE.ShaderMaterial({
 })
 
 // Mirror material
-const mirrorMaterial = new THREE.MeshBasicMaterial({ color: 0xffffe5 })
+const mirrorMaterial = new THREE.ShaderMaterial({
+    uniforms:
+    {  
+        uTime: { value: 0 },
+        uColorStart: { value: new THREE.Color(0x1e63b3) },
+        uColorEnd: { value: new THREE.Color(0xeba834) }
+    },
+    vertexShader: mirrorVertexShader,
+    fragmentShader: mirrorFragmentShader
+})
 
 // Text material
 const textMaterial = new THREE.MeshBasicMaterial({ color: 0xffffe5 })
@@ -305,6 +315,7 @@ const tick = () =>
 
     // Update materials
     panelMaterial.uniforms.uTime.value = elapsedTime
+    mirrorMaterial.uniforms.uTime.value = elapsedTime
 
     // Update mixer
     if(mixer !== null)
