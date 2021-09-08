@@ -10,8 +10,9 @@ import { Raycaster } from 'three'
 
 let playButton = document.getElementById('playButton')
 let pauseButton = document.getElementById('pauseButton')
-let point1 = document.getElementById('point-1')
 let point0 = document.getElementById('point-0')
+let point1 = document.getElementById('point-1')
+let point2 = document.getElementById('point-2')
 let text = document.getElementById('text')
 let text1 = document.getElementById('text1')
 
@@ -48,6 +49,7 @@ let text1 = document.getElementById('text1')
  * Sound
  */
 const sound = new Audio('/sound/music.mp3')
+const sound1 = new Audio('/sound/music1.mp3')
 
 playButton.addEventListener('click', () =>
 {
@@ -56,6 +58,11 @@ playButton.addEventListener('click', () =>
 pauseButton.addEventListener('click', () =>
 {
     sound.pause()
+})
+
+point2.addEventListener('click', () =>
+{
+    sound1.play()
 })
 
 /**
@@ -122,7 +129,7 @@ const textMaterial = new THREE.MeshBasicMaterial({ color: 0xffffe5 })
  */
 const bakedTexture = textureLoader.load('woodsBake.jpg')
 const bakedTexture1 = textureLoader.load('woodsBakeBlack.jpg')
-const bakedTexture2 = textureLoader.load('wallBaked.jpg')
+const bakedTexture2 = textureLoader.load('wallBake.jpg')
 const bakedTexture3 = textureLoader.load('lastBaked.jpg')
 
 
@@ -142,9 +149,9 @@ bakedTexture3.encoding = THREE.sRGBEncoding
 /**
  * Model
  */
- let mixer = null
+let mixer = null
 gltfLoader.load(
-    'room.glb',
+    'room13.glb',
     (gltf) =>
     {
         // gltf.scene.traverse((child) =>
@@ -152,6 +159,9 @@ gltfLoader.load(
         //     console.log(child);
         //     child.material = bakedMaterial1
         // })
+
+        const mogMesh = gltf.scene.children.find(child => child.name === 'mog')
+        mogMesh.material = bakedMaterial3
 
         const WoodsBakeBlackMesh = gltf.scene.children.find(child => child.name === 'Cube')
         WoodsBakeBlackMesh.material = bakedMaterial1
@@ -239,6 +249,10 @@ const points = [
     {
         position: new THREE.Vector3(2.5, 0.8, 4.5),
         element: document.querySelector('.point-1')
+    },
+    {
+        position: new THREE.Vector3(- 2.084, 0.5, 3.025),
+        element: document.querySelector('.point-2')
     }
 ]
 

@@ -103,7 +103,31 @@ body {
     transition: transform 0.3s;
 }
 
+.point .label1 {
+    user-select: none;
+    cursor: pointer;
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background-color: #00000077;
+    color: #ffffff;
+    top: -20px;
+    left: -20px;
+    border-radius: 50%;
+    border: 1px solid #ffffff77;
+    text-align: center;
+    line-height: 30px;
+    font-weight: 200;
+    font-size: 11px;
+    transform: scale(0, 0);
+    transition: transform 0.3s;
+}
+
 .point.visible .label {
+    transform: scale(1, 1);
+}
+
+.point.visible .label1 {
     transform: scale(1, 1);
 }
 
