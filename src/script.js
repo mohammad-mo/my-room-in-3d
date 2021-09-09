@@ -151,7 +151,7 @@ bakedTexture3.encoding = THREE.sRGBEncoding
  */
 let mixer = null
 gltfLoader.load(
-    'room13.glb',
+    'room.glb',
     (gltf) =>
     {
         // gltf.scene.traverse((child) =>
@@ -189,7 +189,7 @@ gltfLoader.load(
         const wallBakeMesh = gltf.scene.children.find(child => child.name === 'Cube028')
         wallBakeMesh.material = bakedMaterial2
 
-        const lastBakedMesh = gltf.scene.children.find(child => child.name === 'Cube180')
+        const lastBakedMesh = gltf.scene.children.find(child => child.name === 'Cube001')
         lastBakedMesh.material = bakedMaterial3
 
         scene.add(gltf.scene)
@@ -297,7 +297,6 @@ scene.add(camera)
 // Controls
 const controls = new OrbitControls(camera, canvas)
 controls.enableDamping = true
-controls.minDistance = 0.5
 controls.maxDistance = 40
 controls.maxPolarAngle = 0.5 * Math.PI
 

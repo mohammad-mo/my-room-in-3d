@@ -18,6 +18,7 @@ body {
 
 #playButton i {
     display: inline-block;
+    cursor: pointer;
     position: absolute;
     font-size: 20px;
     color: #fff;
@@ -38,6 +39,7 @@ body {
 
 #pauseButton i {
     display: inline-block;
+    cursor: pointer;
     position: absolute;
     font-size: 20px;
     color: #fff;
