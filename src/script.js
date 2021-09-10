@@ -121,7 +121,7 @@ const textMaterial = new THREE.MeshBasicMaterial({ color: 0xffffe5 })
 const coffeSteamMaterial = new THREE.ShaderMaterial({
     uniforms:
     {
-        vUvFrequency: { value: new Vector2(4, 4) },
+        vUvFrequency: { value: new Vector2(6, 3) },
         uTime: { value: 0 },
         uColor: { value: new THREE.Color(0xb0b0b0) }
     },
