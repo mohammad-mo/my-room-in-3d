@@ -6,7 +6,9 @@ import panelVertexShader from './shaders/panel/vertex.glsl'
 import panelFragmentShader from './shaders/panel/fragment.glsl'
 import mirrorVertexShader from './shaders/mirror/vertex.glsl'
 import mirrorFragmentShader from './shaders/mirror/fragment.glsl'
-import { Raycaster } from 'three'
+import coffeSteamVertexShader from './shaders/coffeSteam/vertex.glsl'
+import coffeSteamFragmentShader from './shaders/coffeSteam/fragment.glsl'
+import { Raycaster, Vector2 } from 'three'
 
 let playButton = document.getElementById('playButton')
 let pauseButton = document.getElementById('pauseButton')
@@ -115,6 +117,20 @@ const mirrorMaterial = new THREE.ShaderMaterial({
 // Text material
 const textMaterial = new THREE.MeshBasicMaterial({ color: 0xffffe5 })
 
+// Coffe steam
+const coffeSteamMaterial = new THREE.ShaderMaterial({
+    uniforms:
+    {
+        vUvFrequency: { value: new Vector2(4, 4) },
+        uTime: { value: 0 },
+        uColor: { value: new THREE.Color(0xb0b0b0) }
+    },
+    vertexShader: coffeSteamVertexShader,
+    fragmentShader: coffeSteamFragmentShader,
+    transparent: true,
+    depthWrite: false
+})
+
 // const topChairMaterial = new THREE.ShaderMaterial({
 //     uniforms:
 //     {
@@ -162,6 +178,9 @@ gltfLoader.load(
 
         const mogMesh = gltf.scene.children.find(child => child.name === 'mog')
         mogMesh.material = bakedMaterial3
+
+        const coffeSteamMesh = gltf.scene.children.find(child => child.name === 'coffeSteam')
+        coffeSteamMesh.material = coffeSteamMaterial
 
         const WoodsBakeBlackMesh = gltf.scene.children.find(child => child.name === 'Cube')
         WoodsBakeBlackMesh.material = bakedMaterial1
@@ -251,7 +270,7 @@ const points = [
         element: document.querySelector('.point-1')
     },
     {
-        position: new THREE.Vector3(- 2.084, 0.5, 3.025),
+        position: new THREE.Vector3(- 2.23, 0.4, 3.025),
         element: document.querySelector('.point-2')
     }
 ]
@@ -328,6 +347,7 @@ const tick = () =>
     // Update materials
     panelMaterial.uniforms.uTime.value = elapsedTime
     mirrorMaterial.uniforms.uTime.value = elapsedTime
+    coffeSteamMaterial.uniforms.uTime.value = elapsedTime
 
     // Update mixer
     if(mixer !== null)
