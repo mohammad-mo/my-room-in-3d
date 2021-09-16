@@ -183,9 +183,14 @@ a {
     text-decoration: none;
     color: #fff;
     transition: all 0.3s;
+    background: 
+    linear-gradient(90deg, transparent, yellow, transparent) 
+    bottom /var(--d, 0) 1px no-repeat;
+
 }
 
 a:hover,
 a:active {
     color: rgb(255, 234, 43);
+    --d: 100%;
 }
