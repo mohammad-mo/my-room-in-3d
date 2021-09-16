@@ -117,6 +117,9 @@ const mirrorMaterial = new THREE.ShaderMaterial({
 // Text material
 const textMaterial = new THREE.MeshBasicMaterial({ color: 0xffffe5 })
 
+// Eminem's Back poster material
+const eminemBackMaterial = new THREE.MeshBasicMaterial({ color: 0x020202 })
+
 // Coffe steam
 const coffeSteamMaterial = new THREE.ShaderMaterial({
     uniforms:
@@ -147,12 +150,14 @@ const bakedTexture = textureLoader.load('woodsBake.jpg')
 const bakedTexture1 = textureLoader.load('woodsBakeBlack.jpg')
 const bakedTexture2 = textureLoader.load('wallBake.jpg')
 const bakedTexture3 = textureLoader.load('lastBaked.jpg')
+const bakedTexture4 = textureLoader.load('newBaking.jpg')
 
 
 const bakedMaterial = new THREE.MeshBasicMaterial({ map: bakedTexture })
 const bakedMaterial1 = new THREE.MeshBasicMaterial({ map: bakedTexture1 })
 const bakedMaterial2 = new THREE.MeshBasicMaterial({ map: bakedTexture2 })
 const bakedMaterial3 = new THREE.MeshBasicMaterial({ map: bakedTexture3 })
+const bakedMaterial4 = new THREE.MeshBasicMaterial({ map: bakedTexture4 })
 bakedTexture.flipY = false
 bakedTexture.encoding = THREE.sRGBEncoding
 bakedTexture1.flipY = false
@@ -161,6 +166,8 @@ bakedTexture2.flipY = false
 bakedTexture2.encoding = THREE.sRGBEncoding
 bakedTexture3.flipY = false
 bakedTexture3.encoding = THREE.sRGBEncoding
+bakedTexture4.flipY = false
+bakedTexture4.encoding = THREE.sRGBEncoding
 
 /**
  * Model
@@ -175,6 +182,13 @@ gltfLoader.load(
         //     console.log(child);
         //     child.material = bakedMaterial1
         // })
+
+        const eminemMesh = gltf.scene.children.find(child => child.name === 'eminem')
+        eminemMesh.material = bakedMaterial4
+
+        const eminemBackMesh = gltf.scene.children.find(child => child.name === 'eminemBack')
+        eminemBackMesh.material = eminemBackMaterial
+        eminemBackMesh.material.side = THREE.BackSide
 
         const mogMesh = gltf.scene.children.find(child => child.name === 'mog')
         mogMesh.material = bakedMaterial3
