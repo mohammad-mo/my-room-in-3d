@@ -107,7 +107,7 @@ const loadingManager = new THREE.LoadingManager(
       window.setTimeout(() =>
       {
           sceneReady = true
-      }, 2000)
+      }, 3000)
    },
    
    // Progress
