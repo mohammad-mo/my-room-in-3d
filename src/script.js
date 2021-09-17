@@ -13,12 +13,18 @@ import { gsap } from 'gsap'
 
 let playButton = document.getElementById('playButton')
 let pauseButton = document.getElementById('pauseButton')
+let musicElement = document.querySelector('.music')
 let point0 = document.getElementById('point-0')
 let point1 = document.getElementById('point-1')
 let point2 = document.getElementById('point-2')
 let text = document.getElementById('text')
 let text1 = document.getElementById('text1')
 const loadingBarElement = document.querySelector('.loading-bar')
+
+playButton.style.opacity = 0
+pauseButton.style.opacity = 0
+musicElement.style.opacity = 0
+
 
 "mousemove click".split(" ").forEach((e) =>
 {
@@ -86,6 +92,7 @@ const scene = new THREE.Scene()
 /**
 * Loaders
 */
+let sceneReady = false
 const loadingManager = new THREE.LoadingManager(
    // Loaded
    () =>
@@ -96,6 +103,11 @@ const loadingManager = new THREE.LoadingManager(
             loadingBarElement.classList.add('ended')
             loadingBarElement.style.transform = ''
       })
+
+      window.setTimeout(() =>
+      {
+          sceneReady = true
+      }, 2000)
    },
    
    // Progress
@@ -433,7 +445,13 @@ const tick = () =>
     // Update controls
     controls.update()
 
-    // Go through each point
+    if (sceneReady)
+    {
+        playButton.style.opacity = 1
+        pauseButton.style.opacity = 1
+        musicElement.style.opacity = 1
+        
+        // Go through each point
     for(const point of points)
     {
         const screenPosition = point.position.clone()
@@ -465,6 +483,7 @@ const tick = () =>
         const translateY = - screenPosition.y * sizes.height * 0.5
         point.element.style.transform = `translate(${translateX}px, ${translateY}px)`
     }
+}
 
     // Render
     renderer.render(scene, camera)
