@@ -21,7 +21,6 @@
     "raw-loader": "^4.0.2",
     "style-loader": "^2.0.0",
     "three": "^0.126.1",
-    "vercel": "^23.1.2",
     "webpack": "^5.51.1",
     "webpack-cli": "^4.8.0",
     "webpack-dev-server": "^3.11.2",
