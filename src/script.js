@@ -210,8 +210,7 @@ const bakedTexture = textureLoader.load('woodsBake.jpg')
 const bakedTexture1 = textureLoader.load('woodsBakeBlack.jpg')
 const bakedTexture2 = textureLoader.load('wallBake.jpg')
 const bakedTexture3 = textureLoader.load('lastBaked.jpg')
-const bakedTexture4 = textureLoader.load('newBaking.jpg')
-
+const bakedTexture4 = textureLoader.load('newBaked.jpg')
 
 const bakedMaterial = new THREE.MeshBasicMaterial({ map: bakedTexture })
 const bakedMaterial1 = new THREE.MeshBasicMaterial({ map: bakedTexture1 })
