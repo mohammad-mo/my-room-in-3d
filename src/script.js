@@ -180,6 +180,8 @@ const textMaterial = new THREE.MeshBasicMaterial({ color: 0xffffe5 })
 // Eminem's Back poster material
 const eminemBackMaterial = new THREE.MeshBasicMaterial({ color: 0x020202 })
 
+const topBenchPressMaterial = new THREE.MeshBasicMaterial({ color: 0x141414 })
+
 // Coffe steam
 const coffeSteamMaterial = new THREE.ShaderMaterial({
     uniforms:
@@ -248,6 +250,12 @@ gltfLoader.load(
         const eminemBackMesh = gltf.scene.children.find(child => child.name === 'eminemBack')
         eminemBackMesh.material = eminemBackMaterial
         eminemBackMesh.material.side = THREE.BackSide
+
+        const topBenchPressMesh = gltf.scene.children.find(child => child.name === 'topbenchPress')
+        // topBenchPressMesh.material = bakedMaterial4
+        topBenchPressMesh.material = topBenchPressMaterial
+        topBenchPressMesh.material.side = THREE.DoubleSide
+        
 
         const mogMesh = gltf.scene.children.find(child => child.name === 'mog')
         mogMesh.material = bakedMaterial3
