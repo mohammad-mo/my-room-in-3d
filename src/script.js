@@ -499,6 +499,7 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 renderer.outputEncoding = THREE.sRGBEncoding
+renderer.setClearColor('rgb(40, 40, 40)')
 
 /**
  * Animate
