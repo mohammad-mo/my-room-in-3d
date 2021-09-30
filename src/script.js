@@ -11,19 +11,93 @@ import coffeSteamFragmentShader from './shaders/coffeSteam/fragment.glsl'
 import { Raycaster, Vector2 } from 'three'
 import { gsap } from 'gsap'
 
-let playButton = document.getElementById('playButton')
-let pauseButton = document.getElementById('pauseButton')
-let musicElement = document.querySelector('.music')
-let point0 = document.getElementById('point-0')
-let point1 = document.getElementById('point-1')
-let point2 = document.getElementById('point-2')
-let text = document.getElementById('text')
-let text1 = document.getElementById('text1')
+const playButton = document.getElementById('playButton')
+const pauseButton = document.getElementById('pauseButton')
+const musicElement = document.querySelector('.music')
+const point0 = document.getElementById('point-0')
+const point1 = document.getElementById('point-1')
+const point2 = document.getElementById('point-2')
+const text = document.getElementById('text')
+const text1 = document.getElementById('text1')
 const loadingBarElement = document.querySelector('.loading-bar')
+const cursor =  document.getElementById("cursor") //Getting the cursor
+const body =  document.querySelector("body") //Get the body element
+
+//Functions for showing and hiding the cursor
+//They are referenced the 
+function show_cursor() {
+  //Function to show/hide the cursor
+  if (cursor.classList.contains('rjs_cursor_hidden')) {
+    cursor.classList.remove('cursor_hidden')
+  }
+  cursor.classList.add('cursor_visible')
+}
+
+function hide_cursor() 
+{
+  if (cursor.classList.contains('cursor_visible')) 
+  {
+    cursor.classList.remove('cursor_visible')
+  }
+  cursor.classList.add('cursor_hidden')
+}
+
+function mousemove(e) {
+  //Function to correctly position the cursor
+  show_cursor() //Toggle show/hide
+  const cursor_width = cursor.offsetWidth * 0.5
+  const cursor_height = cursor.offsetHeight * 0.5
+  const cursor_x = e.clientX - cursor_width //x-coordinate
+  const cursor_y = e.clientY - cursor_height //y-coordinate
+  const cursor_pos = `translate(${cursor_x}px, ${cursor_y}px)`
+  cursor.style.transform = cursor_pos
+}
+
+//Eventlisteners
+window.addEventListener('mousemove', mousemove) //Attach an event listener
+body.addEventListener('mouseleave', hide_cursor)
+
+//Hover behaviour
+function hover_cursor(e)
+{
+  cursor.classList.add('cursor_hover')
+}
+
+function unhover_cursor(e)
+{
+  cursor.classList.remove('cursor_hover')
+}
+
+document.querySelectorAll('a').forEach((item) => 
+{
+  item.addEventListener('mouseover', hover_cursor)
+  item.addEventListener('mouseleave', unhover_cursor)
+})
+
+playButton.addEventListener('mouseover', hover_cursor)
+playButton.addEventListener('mouseleave', unhover_cursor)
+
+pauseButton.addEventListener('mouseover', hover_cursor)
+pauseButton.addEventListener('mouseleave', unhover_cursor)
+
+point0.addEventListener('mouseover', hover_cursor)
+point0.addEventListener('mouseleave', unhover_cursor)
+
+point1.addEventListener('mouseover', hover_cursor)
+point1.addEventListener('mouseleave', unhover_cursor)
+
+point2.addEventListener('mouseover', hover_cursor)
+point2.addEventListener('mouseleave', unhover_cursor)
+
 
 playButton.style.opacity = 0
+playButton.style.transition = 'opacity 2s'
 pauseButton.style.opacity = 0
+pauseButton.style.transition = 'opacity 1.5s'
 musicElement.style.opacity = 0
+musicElement.style.transition = 'opacity 0.5s'
+cursor.style.opacity = 0
+cursor.style.transition = 'opacity 0.3s'
 
 
 "mousemove click".split(" ").forEach((e) =>
@@ -36,7 +110,7 @@ musicElement.style.opacity = 0
         {
             text.style.opacity = 0
         }, 10000)
-        })
+    })
 })
 
 "mousemove click".split(" ").forEach((e) =>
@@ -51,7 +125,7 @@ musicElement.style.opacity = 0
             text1.style.opacity = 0
             text1.style.pointerEvents = 'none'
         }, 10000)
-        })
+    })
 })
 
 
@@ -457,6 +531,7 @@ const tick = () =>
         playButton.style.opacity = 1
         pauseButton.style.opacity = 1
         musicElement.style.opacity = 1
+        cursor.style.opacity = 1
         
         // Go through each point
     for(const point of points)
