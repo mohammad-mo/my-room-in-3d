@@ -14,14 +14,14 @@ import { gsap } from 'gsap'
 const playButton = document.getElementById('playButton')
 const pauseButton = document.getElementById('pauseButton')
 const musicElement = document.querySelector('.music')
-const point0 = document.getElementById('point-0')
-const point1 = document.getElementById('point-1')
-const point2 = document.getElementById('point-2')
+const point0 = document.querySelector('.point-0')
+const point1 = document.querySelector('.point-1')
+const point2 = document.querySelector('.point-2')
 const text = document.getElementById('text')
 const text1 = document.getElementById('text1')
 const loadingBarElement = document.querySelector('.loading-bar')
-const cursor =  document.getElementById("cursor") //Getting the cursor
-const body =  document.querySelector("body") //Get the body element
+const cursor =  document.getElementById('cursor') //Getting the cursor
+const body =  document.querySelector('body') //Get the body element
 
 //Functions for showing and hiding the cursor
 //They are referenced the 
