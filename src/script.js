@@ -58,12 +58,12 @@ window.addEventListener('mousemove', mousemove) //Attach an event listener
 body.addEventListener('mouseleave', hide_cursor)
 
 //Hover behaviour
-function hover_cursor(e)
+function hover_cursor()
 {
   cursor.classList.add('cursor_hover')
 }
 
-function unhover_cursor(e)
+function unhover_cursor()
 {
   cursor.classList.remove('cursor_hover')
 }
