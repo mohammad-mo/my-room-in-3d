@@ -2,33 +2,51 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+
+    <meta itemprop=name content="Mohammad's Portfolio">
+    <meta itemprop="description" content="creative front-end developer based in iran.">
+
+    <meta property="og:site_name" content="Mohammad's Portfolio">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mohammads-portfolio.vercel.app">
+    <meta property="og:title" content="Mohammad's Portfolio">
+    <meta property="og:description" content="creative front-end developer based in iran.">
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC&display=swap" rel="stylesheet">
     <title>Mohammad's Portfolio</title>
     <script src="https://kit.fontawesome.com/edbd603d7b.js" crossorigin="anonymous"></script>
 </head>
 <body>
+    <div id="cursor" class="cursor">
+        <div class="cursor-icon"></div>
+    </div>
     <div id="playButton">
-        <i class="fas fa-play"></i>
+        <i class="fas fa-play play"></i>
     </div>
     <div id="pauseButton">
-        <i class="fas fa-pause"></i>
+        <i class="fas fa-pause pause"></i>
     </div>
     <div class="music">Music: Harris Heller - Daze</div>
-    <div class="point point-0" id="point-0">
+    <div class="point point-0">
         <div class="label">👦🏻</div>
-        <div id="text">Hi there.<br>
-            This is Mohammad, I'm a creative front-end developer based in iran.</div>
+        <div id="text">
+            Hi there<br>
+            This is Mohammad, I'm a creative front-end developer based in Iran<br>
+            By the way this is my room.
+        </div>
     </div>
-    <div class="point point-1" id="point-1">
+    <div class="point point-1">
         <div class="label">📲</div>
         <div id="text1">
-            <i class="fab fa-github github"></i><a href="https://github.com/mohammadzulu" target="blank">GitHub</a>
+            <i class="fab fa-github github"></i><a href="https://github.com/mohammad-mo" target="blank">GitHub</a>
             <i class="far fa-envelope mail"></i><a href="mailto:mohammadmahone@gmail.com" target="blank">E-mail</a>
         </div>
     </div>
-    <div class="point point-2" id="point-2">
-        <div class="label1">Click</div>
-        </div>
+    <div class="point point-2">
+        <div class="label1"><span class="click">Click</span></div>
+    </div>
     <canvas class="webgl"></canvas>
     <div class="loading-bar"></div>
 </body>
