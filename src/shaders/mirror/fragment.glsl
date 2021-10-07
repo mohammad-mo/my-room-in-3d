@@ -8,7 +8,6 @@ precision highp float;
 uniform vec3 uColorStart;
 uniform vec3 uColorEnd;
 uniform float uTime;
-uniform float spectrum;
 varying vec2 vUv;
 
 void mainImage( out vec4 fragColor, in vec2 fragCoord )
@@ -23,7 +22,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
     for (int n = 0; n < MAX_ITER; n++) {
         float t = uTime * (4.5 - (2.2 / float(n + 122)));
         i = p + vec2(sin((t - i.x) + cos(t + i.y)) * 4.0, cos((t - i.y) + sin(t + i.x)) * 5.0);
-        c += 1.0 / length(vec2(p.x / (sin(i.x + t) / inten + spectrum), p.y / (cos(i.y + t) / inten)));
+        c += 1.0 / length(vec2(p.x / (sin(i.x + t) / inten), p.y / (cos(i.y + t) / inten)));
     }
 
     c /= float(MAX_ITER);
