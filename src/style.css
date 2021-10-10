@@ -88,6 +88,48 @@ body {
   z-index: 1;
 }
 
+@media screen and (max-width: 320px) {
+  #playButton {
+    height: 20px;
+    width: 20px;
+    font-size: 17px;
+  }
+
+  #pauseButton {
+    height: 20px;
+    width: 20px;
+    font-size: 17px;
+    right: 40px;
+  }
+
+  .music {
+    font-size: 15px;
+    bottom: 18px;
+    right: 78px;
+  }
+}
+
+@media screen and (max-width: 425px) and (min-width: 321px) {
+  #playButton {
+    height: 21.5px;
+    width: 21.5px;
+    font-size: 18.5px;
+  }
+
+  #pauseButton {
+    height: 21.5px;
+    width: 21.5px;
+    font-size: 18.5px;
+    right: 42.5px;
+  }
+
+  .music {
+    font-size: 18px;
+    bottom: 16px;
+    right: 80px;
+  }
+}
+
 .point {
   position: absolute;
   top: 50%;
