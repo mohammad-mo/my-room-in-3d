@@ -132,7 +132,7 @@ cursor.style.transition = 'opacity 0.3s'
 /**
  * Sound
  */
-const sound = new Audio('/sound/music.mp3')
+ const sound = new Audio('/sound/Harris Heller - Ambient Gold.mp3')
 const sound1 = new Audio('/sound/music1.mp3')
 
 playButton.addEventListener('click', () =>
