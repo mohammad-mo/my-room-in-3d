@@ -189,33 +189,6 @@ const textureLoader = new THREE.TextureLoader(loadingManager)
 // GLTF loader
 const gltfLoader = new GLTFLoader(loadingManager)
 
-/**
-* Overlay
-*/
-// const overlayGeometry = new THREE.PlaneBufferGeometry(2, 2, 1, 1)
-// const overlayMaterial = new THREE.ShaderMaterial({
-//     uniforms:
-//     {
-//         uAlpha: { value: 1}
-//     },
-//     transparent: true,
-//     vertexShader: `
-//         void main()
-//         {
-//             gl_Position = vec4(position, 1);
-//         }
-//     `,
-//     fragmentShader: `
-//         uniform float uAlpha;
-//         void main()
-//         {
-//             gl_FragColor = vec4(0.0, 0.0, 0.0, uAlpha);
-//         }
-//     `
-// })
-// const overlay = new THREE.Mesh(overlayGeometry, overlayMaterial)
-// scene.add(overlay)
-
 // panel material
 const panelMaterial = new THREE.ShaderMaterial({
     uniforms:
@@ -361,20 +334,6 @@ gltfLoader.load(
         scene.add(gltf.scene)
     }
 )
-
-// const loader = [scene, bakedTexture, bakedTexture1, bakedTexture2, bakedTexture3, bakedTexture4]
-// const loadingManager = new THREE.LoadingManager(gltf)
-// loadingManager.onProgress = (url, itemsLoaded, itemsTotal) =>
-// {
-//     loader.textContent = `${Math.round(itemsLoaded / itemsTotal * 100)}% Loading...`
-//     if(itemsLoaded === itemsTotal)
-//     {
-//         setTimeout(() =>
-//         {
-//             loader.style.opacity = 0
-//         }, 2000)
-//     }
-// }
 
 /**
  * Fireflies
