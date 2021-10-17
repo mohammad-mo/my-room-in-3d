@@ -8,8 +8,6 @@ import mirrorVertexShader from './shaders/mirror/vertex.glsl'
 import mirrorFragmentShader from './shaders/mirror/fragment.glsl'
 import coffeSteamVertexShader from './shaders/coffeSteam/vertex.glsl'
 import coffeSteamFragmentShader from './shaders/coffeSteam/fragment.glsl'
-import { Raycaster, Vector2 } from 'three'
-import { gsap } from 'gsap'
 
 const playButton = document.getElementById('playButton')
 const pauseButton = document.getElementById('pauseButton')
@@ -19,7 +17,6 @@ const point1 = document.querySelector('.point-1')
 const point2 = document.querySelector('.point-2')
 const text = document.getElementById('text')
 const text1 = document.getElementById('text1')
-const loadingBarElement = document.querySelector('.loading-bar')
 const cursor =  document.getElementById('cursor') //Getting the cursor
 const body =  document.querySelector('body') //Get the body element
 
@@ -91,9 +88,9 @@ point2.addEventListener('mouseleave', unhover_cursor)
 
 
 playButton.style.opacity = 0
-playButton.style.transition = 'opacity 2s'
+playButton.style.transition = 'opacity 0.5s'
 pauseButton.style.opacity = 0
-pauseButton.style.transition = 'opacity 1.5s'
+pauseButton.style.transition = 'opacity 0.5s'
 musicElement.style.opacity = 0
 musicElement.style.transition = 'opacity 0.5s'
 cursor.style.opacity = 0
@@ -166,31 +163,26 @@ const scene = new THREE.Scene()
 /**
 * Loaders
 */
-let sceneReady = false
-const loadingManager = new THREE.LoadingManager(
-   // Loaded
-   () =>
-   {
-      gsap.delayedCall(0.5, () =>
-      {
-            gsap.to(overlayMaterial.uniforms.uAlpha, { duration: 3, value: 0, delay: 1 })
-            loadingBarElement.classList.add('ended')
-            loadingBarElement.style.transform = ''
-      })
+const onTransitionEnd = (event) =>
+{
+    event.target.remove()
+}
 
-      window.setTimeout(() =>
+let sceneReady = false
+const loadingManager = new THREE.LoadingManager( () => 
+{
+    const loadingScreen = document.getElementById('loading-screen')
+    loadingScreen.classList.add('fade-out')
+    
+    // optional: remove loader from DOM via event listener
+    loadingScreen.addEventListener('transitionend', onTransitionEnd)
+
+    window.setTimeout(() =>
       {
           sceneReady = true
-      }, 3000)
-   },
-   
-   // Progress
-   (itemUrl, itemsLoaded, itemsTotal) =>
-   {
-       const progressRatio = itemsLoaded / itemsTotal
-       loadingBarElement.style.transform = `scaleX(${progressRatio})`
-   }
-)
+      }, 2000)
+    
+})
 // Texture loader
 const textureLoader = new THREE.TextureLoader(loadingManager)
 
@@ -200,29 +192,29 @@ const gltfLoader = new GLTFLoader(loadingManager)
 /**
 * Overlay
 */
-const overlayGeometry = new THREE.PlaneBufferGeometry(2, 2, 1, 1)
-const overlayMaterial = new THREE.ShaderMaterial({
-    uniforms:
-    {
-        uAlpha: { value: 1}
-    },
-    transparent: true,
-    vertexShader: `
-        void main()
-        {
-            gl_Position = vec4(position, 1);
-        }
-    `,
-    fragmentShader: `
-        uniform float uAlpha;
-        void main()
-        {
-            gl_FragColor = vec4(0.0, 0.0, 0.0, uAlpha);
-        }
-    `
-})
-const overlay = new THREE.Mesh(overlayGeometry, overlayMaterial)
-scene.add(overlay)
+// const overlayGeometry = new THREE.PlaneBufferGeometry(2, 2, 1, 1)
+// const overlayMaterial = new THREE.ShaderMaterial({
+//     uniforms:
+//     {
+//         uAlpha: { value: 1}
+//     },
+//     transparent: true,
+//     vertexShader: `
+//         void main()
+//         {
+//             gl_Position = vec4(position, 1);
+//         }
+//     `,
+//     fragmentShader: `
+//         uniform float uAlpha;
+//         void main()
+//         {
+//             gl_FragColor = vec4(0.0, 0.0, 0.0, uAlpha);
+//         }
+//     `
+// })
+// const overlay = new THREE.Mesh(overlayGeometry, overlayMaterial)
+// scene.add(overlay)
 
 // panel material
 const panelMaterial = new THREE.ShaderMaterial({
@@ -260,7 +252,7 @@ const topBenchPressMaterial = new THREE.MeshBasicMaterial({ color: 0x141414 })
 const coffeSteamMaterial = new THREE.ShaderMaterial({
     uniforms:
     {
-        vUvFrequency: { value: new Vector2(6, 3) },
+        vUvFrequency: { value: new THREE.Vector2(6, 3) },
         uTime: { value: 0 },
         uColor: { value: new THREE.Color(0xb0b0b0) }
     },
@@ -427,7 +419,7 @@ gltfLoader.load(
 /**
  * Points of interest
  */
-const raycaster = new Raycaster()
+const raycaster = new THREE.Raycaster()
 const points = [
     {
         position: new THREE.Vector3(- 1.17, 0.5, 2.9),
