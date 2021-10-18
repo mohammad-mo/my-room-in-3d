@@ -215,6 +215,16 @@ body {
   pointer-events: none;
 }
 
+
+
+@media screen and (min-width: 992px) {
+  .point #text {
+    left: -212px;
+    width: 400px;
+    font-size: 28px;
+  }
+}
+
 .point #text1 {
   display: grid;
   grid-template: repeat(2, auto) / repeat(2, auto);
