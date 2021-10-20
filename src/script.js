@@ -1,4 +1,5 @@
 import './style.css'
+import './style.styl'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
@@ -180,9 +181,10 @@ const loadingManager = new THREE.LoadingManager( () =>
     window.setTimeout(() =>
       {
           sceneReady = true
-      }, 2000)
+      }, 4000)
     
 })
+
 // Texture loader
 const textureLoader = new THREE.TextureLoader(loadingManager)
 
