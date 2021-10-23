@@ -15,8 +15,8 @@ npm run dev
 npm run build
 ```
 ##
-A project i created with THREE.JS...
-It was really fun working with THREE.JS and WEBGL
+A project i created with THREE.JS...  
+It was really fun working with THREE.JS and WEBGL  
 Modeling with Blender
 
 ![Screenshot (110)](https://user-images.githubusercontent.com/73068793/138565833-706779e5-adbe-4016-b6bd-aec0686ab76e.png)
