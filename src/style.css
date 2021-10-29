@@ -244,7 +244,7 @@ body {
 
 @media screen and (min-width: 992px) {
   .point #text1 {
-    grid-template: repeat(2, 35px) / repeat(2, 63px);
+    grid-template: repeat(2, 30px) / repeat(2, 63px);
     align-items: center;
     justify-items: center;
     left: -83px;
@@ -271,8 +271,8 @@ body {
 @media screen and (min-width: 992px) {
   .github,
   .mail {
-    padding-bottom: 4px;
-    font-size: 29px;
+    padding-bottom: 2px;
+    font-size: 28px;
   }
 }
 
