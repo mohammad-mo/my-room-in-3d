@@ -1,0 +1,62 @@
+:root
+  --bg hsl(0, 10%, 10%)
+
+
+@property --a
+  initial-value 0deg
+  inherits false
+  syntax '<angle>'
+@property --h
+  initial-value 0
+  inherits false
+  syntax '<number>'
+
+#loading-screen
+  position relative
+  display flex
+  flex-direction: column
+  align-items: center
+  justify-content: center
+  z-index 11
+  background-color #000
+  height 100vh
+  opacity: 1
+  transition: 3s opacity
+
+.loader  
+  padding 2rem 4rem
+  font-family -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+  font-weight 600
+  color hsl(0, 0%, 100%)
+  border-style solid
+  border-width 1vmin
+  font-size 3rem
+  z-index 10
+  opacity 1
+  --charge 'hsl(%s, 80%, 50%)' % var(--h, 0)
+  border-image conic-gradient(var(--charge) var(--a), transparent calc(var(--a) + 0.5deg)) 30
+  animation load 2s infinite ease-in-out
+
+@media screen and (max-width: 320px) 
+    .loader 
+      font-size 1.5rem
+
+@media screen and (min-width: 320px) and (max-width: 425px) 
+    .loader 
+      font-size 1.8rem     
+
+@media screen and (min-width: 425px) and (max-width: 1444px) 
+    .loader 
+      font-size 2rem 
+
+#loading-screen.fade-out
+    opacity: 0
+
+
+@keyframes load
+  0%, 10%
+    --a 0deg
+    --h 0
+  100%
+    --a 360deg
+    --h 100
