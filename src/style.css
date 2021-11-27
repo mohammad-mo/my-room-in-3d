@@ -271,7 +271,7 @@ body {
 @media screen and (min-width: 992px) {
   .github,
   .mail {
-    padding-bottom: 2px;
+    padding-bottom: 4px;
     font-size: 28px;
   }
 }
