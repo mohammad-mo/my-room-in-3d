@@ -26,5 +26,9 @@
     "webpack-cli": "^4.8.0",
     "webpack-dev-server": "^3.11.2",
     "webpack-merge": "^5.8.0"
+  },
+  "devDependencies": {
+    "stylus": "^0.55.0",
+    "stylus-loader": "^6.2.0"
   }
 }

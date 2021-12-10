@@ -271,7 +271,11 @@ body {
 @media screen and (min-width: 992px) {
   .github,
   .mail {
+<<<<<<< HEAD
     padding-bottom: 2px;
+=======
+    padding-bottom: 4px;
+>>>>>>> main
     font-size: 28px;
   }
 }
@@ -299,6 +303,7 @@ a:active {
   }
 }
 
+<<<<<<< HEAD
 .loading-bar {
   position: absolute;
   top: 50%;
@@ -318,6 +323,8 @@ a:active {
   transition: transform 1.5s ease-in-out;
 }
 
+=======
+>>>>>>> main
 .cursor {
   width: 1rem;
   height: 1rem;
@@ -359,6 +366,7 @@ a:active {
   .cursor-icon {
     opacity: 0;
   }
+<<<<<<< HEAD
 }
 
 /* Loader */
@@ -445,3 +453,6 @@ a:active {
         transform: rotate(360deg);
     }
 } */
+=======
+}
+>>>>>>> main
