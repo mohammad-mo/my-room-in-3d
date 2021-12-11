@@ -14,7 +14,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
 {
     float uTime = uTime * 0.04; 
 
-    vec2 p = mod(vUv * PI2, PI2) - 150.0;
+    vec2 p = mod(vUv * PI2, PI2) - 140.0;
     vec2 i = vec2(p);
     float c = 0.5;
     float inten =  0.0094;
@@ -27,7 +27,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
 
     c /= float(MAX_ITER);
     c = 1.20 - pow(c, 1.3);
-    vec3 color = mix(uColorStart / 3.5, uColorEnd / 2.3, pow(abs(c), 15.0));
+    vec3 color = mix(uColorStart / 4.0, uColorEnd / 2.3, pow(abs(c), 14.0));
 
     fragColor = vec4(color, 1.0);
 }

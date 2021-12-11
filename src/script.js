@@ -207,7 +207,7 @@ const mirrorMaterial = new THREE.ShaderMaterial({
     uniforms:
     {  
         uTime: { value: 0 },
-        uColorStart: { value: new THREE.Color(0x1e63b3) },
+        uColorStart: { value: new THREE.Color(0x5e6573) },
         uColorEnd: { value: new THREE.Color(0xeba834) }
     },
     vertexShader: mirrorVertexShader,
