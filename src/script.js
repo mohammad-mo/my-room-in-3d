@@ -23,15 +23,17 @@ const body =  document.querySelector('body') //Get the body element
 
 //Functions for showing and hiding the cursor
 //They are referenced the 
-function show_cursor() {
+const show_cursor = () => 
+{
   //Function to show/hide the cursor
-  if (cursor.classList.contains('rjs_cursor_hidden')) {
+  if (cursor.classList.contains('rjs_cursor_hidden')) 
+  {
     cursor.classList.remove('cursor_hidden')
   }
   cursor.classList.add('cursor_visible')
 }
 
-function hide_cursor() 
+const hide_cursor = () => 
 {
   if (cursor.classList.contains('cursor_visible')) 
   {
@@ -40,7 +42,8 @@ function hide_cursor()
   cursor.classList.add('cursor_hidden')
 }
 
-function mousemove(e) {
+const mousemove = (e) => 
+{
   //Function to correctly position the cursor
   show_cursor() //Toggle show/hide
   const cursor_width = cursor.offsetWidth * 0.5
@@ -56,12 +59,12 @@ window.addEventListener('mousemove', mousemove) //Attach an event listener
 body.addEventListener('mouseleave', hide_cursor)
 
 //Hover behaviour
-function hover_cursor()
+const hover_cursor = () =>
 {
   cursor.classList.add('cursor_hover')
 }
 
-function unhover_cursor()
+const unhover_cursor = () =>
 {
   cursor.classList.remove('cursor_hover')
 }
@@ -130,7 +133,7 @@ cursor.style.transition = 'opacity 0.3s'
 /**
  * Sound
  */
- const sound = new Audio('/sound/Harris Heller - Ambient Gold.mp3')
+const sound = new Audio('/sound/Harris Heller - Ambient Gold.mp3')
 const sound1 = new Audio('/sound/music1.mp3')
 
 playButton.addEventListener('click', () =>

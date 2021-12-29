@@ -223,7 +223,7 @@ body {
 
 .point #text1 {
   display: grid;
-  grid-template: repeat(2, auto) / repeat(2, auto);
+  grid-template: repeat(2, auto) / repeat(1, auto);
   row-gap: 5px;
   position: absolute;
   top: 20px;
@@ -244,12 +244,16 @@ body {
 
 @media screen and (min-width: 992px) {
   .point #text1 {
-    grid-template: repeat(2, 30px) / repeat(2, 63px);
-    align-items: center;
-    justify-items: center;
+    grid-template: repeat(2, 30px) / repeat(1, 137px);
     left: -83px;
     width: 136px;
   }
+}
+
+.socials {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
 }
 
 .click {
@@ -266,36 +270,38 @@ body {
 .mail {
   font-size: 20px;
   color: #fff;
+  padding-bottom: 2px;
 }
 
 @media screen and (min-width: 992px) {
   .github,
   .mail {
-    padding-bottom: 4px;
     font-size: 28px;
   }
 }
 
 a {
-  padding-bottom: 2px;
-  font-size: 23px;
   text-decoration: none;
+}
+
+.socials-span {
   color: #fff;
+  font-size: 23px;
+  padding-bottom: 2px;
   transition: all 0.3s;
   background: linear-gradient(90deg, transparent, yellow, transparent) bottom /
     var(--d, 0) 1px no-repeat;
 }
 
-a:hover,
-a:active {
+.socials-span:hover,
+.socials-span:active {
   color: rgb(255, 234, 43);
   --d: 100%;
 }
 
 @media screen and (min-width: 992px) {
-  a {
+  .socials-span {
     font-size: 28px;
-    padding-bottom: 4px;
   }
 }
 
