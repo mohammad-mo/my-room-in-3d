@@ -80,9 +80,9 @@ body {
 
 .music {
   position: absolute;
-  font-size: 20px;
+  font-size: 22px;
   letter-spacing: 1px;
-  bottom: 15px;
+  bottom: 14px;
   right: 86px;
   color: #fff;
   z-index: 1;
@@ -162,7 +162,7 @@ body {
   text-align: center;
   line-height: 30px;
   font-weight: 200;
-  font-size: 11px;
+  font-size: 16px;
   transform: scale(0, 0);
   transition: transform 0.3s;
 }
@@ -198,8 +198,8 @@ body {
 .point #text {
   position: absolute;
   top: 20px;
-  left: -163px;
-  width: 300px;
+  left: -203px;
+  width: 378px;
   padding: 10px;
   border-radius: 5px;
   background-color: #00000077;
@@ -207,28 +207,44 @@ body {
   line-height: 1.3em;
   text-align: center;
   font-weight: 200;
-  font-size: 23px;
+  font-size: 28px;
   opacity: 0;
   transition: opacity 0.3s;
   pointer-events: none;
 }
 
+@media screen and (max-width: 425px) {
+  .point #text {
+    left: -189px;
+    width: 350px;
+    font-size: 25px;
+  }
+}
+
+@media screen and (min-width: 320px) and (max-width: 375px) {
+  .point #text {
+    left: -163px;
+    width: 300px;
+    font-size: 23px;
+  }
+}
+
 @media screen and (min-width: 992px) {
   .point #text {
-    left: -212px;
-    width: 400px;
-    font-size: 28px;
+    left: -234px;
+    width: 440px;
+    font-size: 32px;
   }
 }
 
 .point #text1 {
   display: grid;
-  grid-template: repeat(2, auto) / repeat(1, auto);
+  grid-template: repeat(2, auto) / repeat(1, 121px);
   row-gap: 5px;
   position: absolute;
-  top: 20px;
-  left: -65px;
-  width: 100px;
+  top: 18px;
+  left: -76px;
+  width: 120px;
   padding: 10px;
   border-radius: 5px;
   background-color: #00000077;
@@ -244,9 +260,11 @@ body {
 
 @media screen and (min-width: 992px) {
   .point #text1 {
-    grid-template: repeat(2, 30px) / repeat(1, 137px);
-    left: -83px;
-    width: 136px;
+    grid-template: repeat(2, 30px) / repeat(1, 134px);
+    left: -79px;
+    width: 130px;
+    row-gap: 10px;
+    padding: 12px;
   }
 }
 
@@ -268,15 +286,15 @@ body {
 
 .github,
 .mail {
-  font-size: 20px;
+  font-size: 28px;
   color: #fff;
-  padding-bottom: 2px;
+  padding-bottom: 4px;
 }
 
 @media screen and (min-width: 992px) {
   .github,
   .mail {
-    font-size: 28px;
+    font-size: 32px;
   }
 }
 
@@ -286,8 +304,8 @@ a {
 
 .socials-span {
   color: #fff;
-  font-size: 23px;
-  padding-bottom: 2px;
+  font-size: 28px;
+  padding-bottom: 4px;
   transition: all 0.3s;
   background: linear-gradient(90deg, transparent, yellow, transparent) bottom /
     var(--d, 0) 1px no-repeat;
@@ -301,7 +319,7 @@ a {
 
 @media screen and (min-width: 992px) {
   .socials-span {
-    font-size: 28px;
+    font-size: 32px;
   }
 }
 
