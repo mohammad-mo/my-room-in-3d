@@ -60,8 +60,7 @@ module.exports = {
                 use:
                 [
                     MiniCSSExtractPlugin.loader,
-                    'css-loader',
-                    'stylus-loader'
+                    'css-loader'
                 ]
             },
 

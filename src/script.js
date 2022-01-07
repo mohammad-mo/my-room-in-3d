@@ -1,5 +1,4 @@
 import './style.css'
-import './style.styl'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
@@ -175,7 +174,7 @@ const onTransitionEnd = (event) =>
 let sceneReady = false
 const loadingManager = new THREE.LoadingManager( () => 
 {
-    const loadingScreen = document.getElementById('loading-screen')
+    const loadingScreen = document.querySelector('.spinner-container')
     loadingScreen.classList.add('fade-out')
     
     // optional: remove loader from DOM via event listener
