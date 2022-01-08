@@ -183,7 +183,7 @@ const loadingManager = new THREE.LoadingManager( () =>
     window.setTimeout(() =>
       {
           sceneReady = true
-      }, 3000)
+      }, 4000)
     
 })
 // Texture loader
