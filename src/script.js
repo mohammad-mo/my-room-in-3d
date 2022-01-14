@@ -17,12 +17,11 @@ const point1 = document.querySelector('.point-1')
 const point2 = document.querySelector('.point-2')
 const text = document.getElementById('text')
 const text1 = document.getElementById('text1')
-const cursor =  document.getElementById('cursor') //Getting the cursor
-const body =  document.querySelector('body') //Get the body element
+const cursor =  document.getElementById('cursor')
 
 //Functions for showing and hiding the cursor
 //They are referenced the 
-const show_cursor = () => 
+const showCursor = () => 
 {
   //Function to show/hide the cursor
   if (cursor.classList.contains('rjs_cursor_hidden')) 
@@ -32,7 +31,7 @@ const show_cursor = () =>
   cursor.classList.add('cursor_visible')
 }
 
-const hide_cursor = () => 
+const hideCursor = () => 
 {
   if (cursor.classList.contains('cursor_visible')) 
   {
@@ -44,50 +43,50 @@ const hide_cursor = () =>
 const mousemove = (e) => 
 {
   //Function to correctly position the cursor
-  show_cursor() //Toggle show/hide
-  const cursor_width = cursor.offsetWidth * 0.5
-  const cursor_height = cursor.offsetHeight * 0.5
-  const cursor_x = e.clientX - cursor_width //x-coordinate
-  const cursor_y = e.clientY - cursor_height //y-coordinate
-  const cursor_pos = `translate(${cursor_x}px, ${cursor_y}px)`
-  cursor.style.transform = cursor_pos
+  showCursor() //Toggle show/hide
+  const cursorWidth = cursor.offsetWidth * 0.5
+  const cursorHeight = cursor.offsetHeight * 0.5
+  const cursorX = e.clientX - cursorWidth //x-coordinate
+  const cursorY = e.clientY - cursorHeight //y-coordinate
+  const cursorPos = `translate(${cursorX}px, ${cursorY}px)`
+  cursor.style.transform = cursorPos
 }
 
 //Eventlisteners
 window.addEventListener('mousemove', mousemove) //Attach an event listener
-body.addEventListener('mouseleave', hide_cursor)
+document.body.addEventListener('mouseleave', hideCursor)
 
 //Hover behaviour
-const hover_cursor = () =>
+const hoverCursor = () =>
 {
   cursor.classList.add('cursor_hover')
 }
 
-const unhover_cursor = () =>
+const unhoverCursor = () =>
 {
   cursor.classList.remove('cursor_hover')
 }
 
 document.querySelectorAll('a').forEach((item) => 
 {
-  item.addEventListener('mouseover', hover_cursor)
-  item.addEventListener('mouseleave', unhover_cursor)
+  item.addEventListener('mouseover', hoverCursor)
+  item.addEventListener('mouseleave', unhoverCursor)
 })
 
-playButton.addEventListener('mouseover', hover_cursor)
-playButton.addEventListener('mouseleave', unhover_cursor)
+playButton.addEventListener('mouseover', hoverCursor)
+playButton.addEventListener('mouseleave', unhoverCursor)
 
-pauseButton.addEventListener('mouseover', hover_cursor)
-pauseButton.addEventListener('mouseleave', unhover_cursor)
+pauseButton.addEventListener('mouseover', hoverCursor)
+pauseButton.addEventListener('mouseleave', unhoverCursor)
 
-point0.addEventListener('mouseover', hover_cursor)
-point0.addEventListener('mouseleave', unhover_cursor)
+point0.addEventListener('mouseover', hoverCursor)
+point0.addEventListener('mouseleave', unhoverCursor)
 
-point1.addEventListener('mouseover', hover_cursor)
-point1.addEventListener('mouseleave', unhover_cursor)
+point1.addEventListener('mouseover', hoverCursor)
+point1.addEventListener('mouseleave', unhoverCursor)
 
-point2.addEventListener('mouseover', hover_cursor)
-point2.addEventListener('mouseleave', unhover_cursor)
+point2.addEventListener('mouseover', hoverCursor)
+point2.addEventListener('mouseleave', unhoverCursor)
 
 
 playButton.style.opacity = 0
@@ -132,7 +131,7 @@ cursor.style.transition = 'opacity 0.3s'
 /**
  * Sound
  */
-const sound = new Audio('/sound/Harris Heller - Ambient Gold.mp3')
+const sound = new Audio('/sound/Parkbench Epiphany - Soulsounds.mp3')
 const sound1 = new Audio('/sound/music1.mp3')
 
 playButton.addEventListener('click', () =>
