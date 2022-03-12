@@ -148,14 +148,6 @@ point2.addEventListener('click', () =>
     sound1.play()
 })
 
-/**
- * Base
- */ 
-// Debug
-// const gui = new dat.GUI({
-//     width: 400
-// })
-
 // Canvas
 const canvas = document.querySelector('canvas.webgl')
 
@@ -237,15 +229,6 @@ const coffeSteamMaterial = new THREE.ShaderMaterial({
     depthWrite: false
 })
 
-// const topChairMaterial = new THREE.ShaderMaterial({
-//     uniforms:
-//     {
-//         uTime: { value: 0 }
-//     },
-//     vertexShader: topChairVertexShader
-// })
-
-
 /**
  * Textures
  */
@@ -279,12 +262,6 @@ gltfLoader.load(
     'room.glb',
     (gltf) =>
     {
-        // gltf.scene.traverse((child) =>
-        // {
-        //     console.log(child);
-        //     child.material = bakedMaterial1
-        // })
-
         const eminemMesh = gltf.scene.children.find(child => child.name === 'eminem')
         eminemMesh.material = bakedMaterial4
 
@@ -293,7 +270,6 @@ gltfLoader.load(
         eminemBackMesh.material.side = THREE.BackSide
 
         const topBenchPressMesh = gltf.scene.children.find(child => child.name === 'topbenchPress')
-        // topBenchPressMesh.material = bakedMaterial4
         topBenchPressMesh.material = topBenchPressMaterial
         topBenchPressMesh.material.side = THREE.DoubleSide
         
@@ -338,46 +314,6 @@ gltfLoader.load(
 )
 
 /**
- * Fireflies
- */
-// Geometry
-// const firefliesGeometry = new THREE.BufferGeometry()
-// const firefliesCount = 2
-// const positionArray = new Float32Array(firefliesCount * 3)
-// const scaleArray = new Float32Array(firefliesCount)
-
-// for(let i = 0; i < firefliesCount; i++)
-// {
-//     positionArray[i * 3 + 0] = (Math.random() - 0.2) * 4
-//     positionArray[i * 3 + 1] = Math.random() * 3
-//     positionArray[i * 3 + 2] = (Math.random() + 0.9) * 4
-
-//     scaleArray[i] = Math.random()
-// }
-
-// firefliesGeometry.setAttribute('position', new THREE.BufferAttribute(positionArray, 3))
-// firefliesGeometry.setAttribute('aScale', new THREE.BufferAttribute(scaleArray, 1))
-
-// // Material
-// const firefliesMaterial = new THREE.ShaderMaterial({
-//     uniforms:
-//     {
-//         uPixelRatio: { value: Math.min(window.devicePixelRatio, 2) },
-//         uSize: { value: 400 },
-//         uTime: { value: 0}
-//     },
-//     vertexShader: firefliesVertexShader,
-//     fragmentShader: firefliesFragmentShader,
-//     transparent: true,
-//     blending: THREE.AdditiveBlending,
-//     depthWrite: false
-// })
-
-// // Points
-// const fireflies = new THREE.Points(firefliesGeometry, firefliesMaterial)
-// scene.add(fireflies)
-
-/**
  * Points of interest
  */
 const raycaster = new THREE.Raycaster()
@@ -418,9 +354,6 @@ window.addEventListener('resize', () =>
     // Update renderer
     renderer.setSize(sizes.width, sizes.height)
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-
-    // Update fireflies
-    // firefliesMaterial.uniforms.uPixelRatio.value = Math.min(window.devicePixelRatio, 2)
 })
 
 /**
@@ -431,16 +364,18 @@ const camera = new THREE.PerspectiveCamera(25, sizes.width / sizes.height, 0.1, 
 camera.position.x = -8
 camera.position.y = 8
 camera.position.z = -20
+camera.updateMatrixWorld()
 
 scene.add(camera)
 
 // Controls
 const controls = new OrbitControls(camera, canvas)
 controls.enableDamping = true
+controls.screenSpacePanning = true
+controls.zoomSpeed = 0.5
 controls.maxDistance = 40
 controls.maxPolarAngle = 0.5 * Math.PI
-
-// controls.update()
+controls.update()
 
 /**
  * Renderer
@@ -487,7 +422,7 @@ const tick = () =>
         musicElement.style.opacity = 1
         cursor.style.opacity = 1
         
-        // Go through each point
+    // Go through each point
     for(const point of points)
     {
         const screenPosition = point.position.clone()
