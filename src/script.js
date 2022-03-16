@@ -219,8 +219,8 @@ const topBenchPressMaterial = new THREE.MeshBasicMaterial({ color: 0x141414 })
 const coffeSteamMaterial = new THREE.ShaderMaterial({
     uniforms:
     {
-        vUvFrequency: { value: new THREE.Vector2(6, 3) },
-        uTime: { value: 0 },
+        vUvFrequency: { value: new THREE.Vector2(4, 5) },
+        uTime: { value: 0.0004 },
         uColor: { value: new THREE.Color(0xb0b0b0) }
     },
     vertexShader: coffeSteamVertexShader,
@@ -232,17 +232,19 @@ const coffeSteamMaterial = new THREE.ShaderMaterial({
 /**
  * Textures
  */
-const bakedTexture = textureLoader.load('woodsBake.jpg')
-const bakedTexture1 = textureLoader.load('woodsBakeBlack.jpg')
-const bakedTexture2 = textureLoader.load('wallBake.jpg')
-const bakedTexture3 = textureLoader.load('lastBaked.jpg')
-const bakedTexture4 = textureLoader.load('newBaked.jpg')
+const bakedTexture = textureLoader.load('bakedTexture.jpg')
+const bakedTexture1 = textureLoader.load('bakedTexture1.jpg')
+const bakedTexture2 = textureLoader.load('bakedTexture2.jpg')
+const bakedTexture3 = textureLoader.load('bakedTexture3.jpg')
+const bakedTexture4 = textureLoader.load('bakedTexture4.jpg')
+const bakedTexture5 = textureLoader.load('bakedTexture5.jpg')
 
 const bakedMaterial = new THREE.MeshBasicMaterial({ map: bakedTexture })
 const bakedMaterial1 = new THREE.MeshBasicMaterial({ map: bakedTexture1 })
 const bakedMaterial2 = new THREE.MeshBasicMaterial({ map: bakedTexture2 })
 const bakedMaterial3 = new THREE.MeshBasicMaterial({ map: bakedTexture3 })
 const bakedMaterial4 = new THREE.MeshBasicMaterial({ map: bakedTexture4 })
+const bakedMaterial5 = new THREE.MeshBasicMaterial({ map: bakedTexture5 })
 bakedTexture.flipY = false
 bakedTexture.encoding = THREE.sRGBEncoding
 bakedTexture1.flipY = false
@@ -253,6 +255,8 @@ bakedTexture3.flipY = false
 bakedTexture3.encoding = THREE.sRGBEncoding
 bakedTexture4.flipY = false
 bakedTexture4.encoding = THREE.sRGBEncoding
+bakedTexture5.flipY = false
+bakedTexture5.encoding = THREE.sRGBEncoding
 
 /**
  * Model
@@ -262,6 +266,9 @@ gltfLoader.load(
     'room.glb',
     (gltf) =>
     {
+        const keyboard = gltf.scene.children.find(child => child.name === 'keyboard')
+        keyboard.material = bakedMaterial5
+
         const eminemMesh = gltf.scene.children.find(child => child.name === 'eminem')
         eminemMesh.material = bakedMaterial4
 
@@ -319,7 +326,7 @@ gltfLoader.load(
 const raycaster = new THREE.Raycaster()
 const points = [
     {
-        position: new THREE.Vector3(- 1.17, 0.5, 2.9),
+        position: new THREE.Vector3(- 1.0, 0.5, 3.1),
         element: document.querySelector('.point-0')
     },
     {
