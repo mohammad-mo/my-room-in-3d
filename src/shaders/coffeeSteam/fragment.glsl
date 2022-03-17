@@ -1,4 +1,5 @@
 varying vec2 vUv;
+uniform float uTimeFrequency;
 uniform vec2 vUvFrequency;
 uniform float uTime;
 uniform vec3 uColor;
@@ -9,14 +10,14 @@ uniform vec3 uColor;
 void main()
 {
     vec2 uv = vUv * vUvFrequency;
-    uv.y -= uTime * 0.5;
+    uv.y -= uTime * uTimeFrequency;
 
     float borderAlpha = min(vUv.x * 4.0, (1.0 - vUv.x) * 4.0);
     borderAlpha = borderAlpha *  (1.0 - vUv.y);
 
     float perlin = perlin2d(uv);
     perlin *= borderAlpha;
-    perlin *= 0.8;
+    perlin *= 0.6;
     perlin = min(perlin, 1.0);
 
     gl_FragColor = vec4(uColor, perlin);

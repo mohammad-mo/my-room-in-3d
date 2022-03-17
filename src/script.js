@@ -6,8 +6,8 @@ import panelVertexShader from './shaders/panel/vertex.glsl'
 import panelFragmentShader from './shaders/panel/fragment.glsl'
 import mirrorVertexShader from './shaders/mirror/vertex.glsl'
 import mirrorFragmentShader from './shaders/mirror/fragment.glsl'
-import coffeSteamVertexShader from './shaders/coffeSteam/vertex.glsl'
-import coffeSteamFragmentShader from './shaders/coffeSteam/fragment.glsl'
+import coffeeSteamVertexShader from './shaders/coffeeSteam/vertex.glsl'
+import coffeeSteamFragmentShader from './shaders/coffeeSteam/fragment.glsl'
 
 const playButton = document.getElementById('playButton')
 const pauseButton = document.getElementById('pauseButton')
@@ -215,16 +215,17 @@ const eminemBackMaterial = new THREE.MeshBasicMaterial({ color: 0x020202 })
 
 const topBenchPressMaterial = new THREE.MeshBasicMaterial({ color: 0x141414 })
 
-// Coffe steam
-const coffeSteamMaterial = new THREE.ShaderMaterial({
+// Coffee steam
+const coffeeSteamMaterial = new THREE.ShaderMaterial({
     uniforms:
     {
+        uTimeFrequency: { value: 0.0004 },
         vUvFrequency: { value: new THREE.Vector2(4, 5) },
-        uTime: { value: 0.0004 },
+        uTime: { value: 0 },
         uColor: { value: new THREE.Color(0xb0b0b0) }
     },
-    vertexShader: coffeSteamVertexShader,
-    fragmentShader: coffeSteamFragmentShader,
+    vertexShader: coffeeSteamVertexShader,
+    fragmentShader: coffeeSteamFragmentShader,
     transparent: true,
     depthWrite: false
 })
@@ -285,7 +286,7 @@ gltfLoader.load(
         mogMesh.material = bakedMaterial3
 
         const coffeSteamMesh = gltf.scene.children.find(child => child.name === 'coffeSteam')
-        coffeSteamMesh.material = coffeSteamMaterial
+        coffeSteamMesh.material = coffeeSteamMaterial
 
         const WoodsBakeBlackMesh = gltf.scene.children.find(child => child.name === 'Cube')
         WoodsBakeBlackMesh.material = bakedMaterial1
@@ -326,7 +327,7 @@ gltfLoader.load(
 const raycaster = new THREE.Raycaster()
 const points = [
     {
-        position: new THREE.Vector3(- 1.0, 0.5, 3.1),
+        position: new THREE.Vector3(- 1.0, 0.5, 3.3),
         element: document.querySelector('.point-0')
     },
     {
@@ -379,7 +380,7 @@ scene.add(camera)
 const controls = new OrbitControls(camera, canvas)
 controls.enableDamping = true
 controls.screenSpacePanning = true
-controls.zoomSpeed = 0.5
+controls.zoomSpeed = 0.8
 controls.maxDistance = 40
 controls.maxPolarAngle = 0.5 * Math.PI
 controls.update()
@@ -411,7 +412,7 @@ const tick = () =>
     // Update materials
     panelMaterial.uniforms.uTime.value = elapsedTime
     mirrorMaterial.uniforms.uTime.value = elapsedTime
-    coffeSteamMaterial.uniforms.uTime.value = elapsedTime
+    coffeeSteamMaterial.uniforms.uTime.value = elapsedTime
 
     // Update mixer
     if(mixer !== null)
