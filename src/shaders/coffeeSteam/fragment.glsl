@@ -12,8 +12,8 @@ void main()
     vec2 uv = vUv - vUvFrequency;
     uv.y -= uTime * uTimeFrequency;
 
-    float borderAlpha = min(vUv.x * 8.0, (0.9 - vUv.x) * 4.0);
-    borderAlpha = borderAlpha *  (0.8 - vUv.y);
+    float borderAlpha = min(vUv.x * 8.0, (1.5 - vUv.x) * 4.0);
+    borderAlpha = borderAlpha *  (0.9 - vUv.y);
 
     float perlin = perlin2d(uv);
     perlin *= borderAlpha;
