@@ -2,6 +2,7 @@ import './style.css'
 import * as THREE from 'three'
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js'
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js'
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import panelVertexShader from './shaders/panel/vertex.glsl'
 import panelFragmentShader from './shaders/panel/fragment.glsl'
 import mirrorVertexShader from './shaders/mirror/vertex.glsl'
@@ -179,8 +180,13 @@ const loadingManager = new THREE.LoadingManager( () =>
 // Texture loader
 const textureLoader = new THREE.TextureLoader(loadingManager)
 
+// Draco loader
+const dracoLoader = new DRACOLoader(loadingManager)
+dracoLoader.setDecoderPath('draco/')
+
 // GLTF loader
 const gltfLoader = new GLTFLoader(loadingManager)
+gltfLoader.setDRACOLoader(dracoLoader)
 
 // panel material
 const panelMaterial = new THREE.ShaderMaterial({
