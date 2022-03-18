@@ -7,10 +7,10 @@ void main()
 {
     vec3 newPosition = position;
     vec2 displacementUv = uv;
-    displacementUv *= 3.5;
+    displacementUv *= 3.0;
     displacementUv.y -= uTime * 0.2;
 
-    float displacementStrength = pow(uv.y * 3.0, 1.5);
+    float displacementStrength = pow(uv.y * 2.5, 1.5);
     float perlin = perlin2d(displacementUv) * displacementStrength;
 
     newPosition.y += perlin * 0.1;

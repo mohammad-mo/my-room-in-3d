@@ -1,7 +1,7 @@
 import './style.css'
 import * as THREE from 'three'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js'
+import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js'
 import panelVertexShader from './shaders/panel/vertex.glsl'
 import panelFragmentShader from './shaders/panel/fragment.glsl'
 import mirrorVertexShader from './shaders/mirror/vertex.glsl'
@@ -48,8 +48,7 @@ const mousemove = (e) =>
   const cursorHeight = cursor.offsetHeight * 0.5
   const cursorX = e.clientX - cursorWidth //x-coordinate
   const cursorY = e.clientY - cursorHeight //y-coordinate
-  const cursorPos = `translate(${cursorX}px, ${cursorY}px)`
-  cursor.style.transform = cursorPos
+    cursor.style.transform = `translate(${cursorX}px, ${cursorY}px)`
 }
 
 //Eventlisteners
