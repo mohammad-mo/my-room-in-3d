@@ -9,15 +9,14 @@ uniform vec3 uColor;
 
 void main()
 {
-    vec2 uv = vUv * vUvFrequency;
+    vec2 uv = vUv - vUvFrequency;
     uv.y -= uTime * uTimeFrequency;
 
-    float borderAlpha = min(vUv.x * 4.0, (1.0 - vUv.x) * 4.0);
-    borderAlpha = borderAlpha *  (1.0 - vUv.y);
+    float borderAlpha = min(vUv.x * 8.0, (0.8 - vUv.x) * 4.0);
+    borderAlpha = borderAlpha *  (0.7 - vUv.y);
 
     float perlin = perlin2d(uv);
     perlin *= borderAlpha;
-    perlin *= 0.6;
     perlin = min(perlin, 1.0);
 
     gl_FragColor = vec4(uColor, perlin);

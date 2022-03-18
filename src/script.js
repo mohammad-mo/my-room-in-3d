@@ -369,9 +369,7 @@ window.addEventListener('resize', () =>
  */
 // Base camera
 const camera = new THREE.PerspectiveCamera(25, sizes.width / sizes.height, 0.1, 100)
-camera.position.x = -8
-camera.position.y = 8
-camera.position.z = -20
+camera.position.set(-8, 8, -20)
 camera.updateMatrixWorld()
 
 scene.add(camera)

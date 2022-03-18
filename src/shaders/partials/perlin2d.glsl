@@ -14,7 +14,7 @@ float perlin2d(vec2 P){
   vec4 fy = Pf.yyww;
   vec4 i = permute(permute(ix) + iy);
   vec4 gx = 2.0 * fract(i * 0.0243902439) - 1.0; // 1/41 = 0.024...
-  vec4 gy = abs(gx) - 0.5;
+  vec4 gy = abs(gx) / 0.6;
   vec4 tx = floor(gx + 0.5);
   gx = gx - tx;
   vec2 g00 = vec2(gx.x,gy.x);
