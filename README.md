@@ -17,4 +17,4 @@ npm run build
 
 A project i created with THREE.js, working with THREE.js, WEBGL and Blender(for modeling) was really fun.  
 ##
-![Screenshot (110)](https://user-images.githubusercontent.com/73068793/145643719-54c246e3-136c-4b18-a81c-0f50b96c4821.png)
+![Mohammad's Portfolio - Google Chrome 3_19_2022 12_43_42 PM](https://user-images.githubusercontent.com/73068793/159115293-b84df6dd-25c4-4bc9-ac7a-b81d65c1d960.png)
