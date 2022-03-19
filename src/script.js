@@ -274,8 +274,6 @@ gltfLoader.load(
     'room.glb',
     (gltf) =>
     {
-        window.addEventListener('load', () =>
-        {
             const tl = gsap.timeline({ 
                 ease: 'power2.inOut',
                 repeat: '-1',
@@ -358,7 +356,6 @@ gltfLoader.load(
 
                     }
                 )
-        })
 
         const keyboard = gltf.scene.children.find(child => child.name === 'keyboard')
         keyboard.material = bakedMaterial5
