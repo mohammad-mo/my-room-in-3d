@@ -1,8 +1,10 @@
 import './style.css'
+import gsap from 'gsap'
 import * as THREE from 'three'
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js'
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
+import { Reflector } from 'three/examples/jsm/objects/Reflector'
 import panelVertexShader from './shaders/panel/vertex.glsl'
 import panelFragmentShader from './shaders/panel/fragment.glsl'
 import mirrorVertexShader from './shaders/mirror/vertex.glsl'
@@ -201,16 +203,16 @@ const panelMaterial = new THREE.ShaderMaterial({
 })
 
 // Mirror material
-const mirrorMaterial = new THREE.ShaderMaterial({
-    uniforms:
-    {  
-        uTime: { value: 0 },
-        uColorStart: { value: new THREE.Color(0x5e6573) },
-        uColorEnd: { value: new THREE.Color(0xeba834) }
-    },
-    vertexShader: mirrorVertexShader,
-    fragmentShader: mirrorFragmentShader
-})
+// const mirrorMaterial = new THREE.ShaderMaterial({
+//     uniforms:
+//     {  
+//         uTime: { value: 0 },
+//         uColorStart: { value: new THREE.Color(0x5e6573) },
+//         uColorEnd: { value: new THREE.Color(0xeba834) }
+//     },
+//     vertexShader: mirrorVertexShader,
+//     fragmentShader: mirrorFragmentShader
+// })
 
 // Text material
 const textMaterial = new THREE.MeshBasicMaterial({ color: 0xffffe5 })
@@ -272,8 +274,115 @@ gltfLoader.load(
     'room.glb',
     (gltf) =>
     {
+        window.addEventListener('load', () =>
+        {
+            const tl = gsap.timeline({ 
+                ease: 'power2.inOut',
+                repeat: '-1',
+                yoyo: true
+            })
+            tl
+                .fromTo(
+                    gltf.scene.children.find(child => child.name === 'ctrlKey').position,
+                    {
+                        y: '-=0.0008',
+                    },
+                    {
+                        y: '+=0.0015',
+                        duration: 0.2,
+                    }
+                )
+                .fromTo(
+                    gltf.scene.children.find(child => child.name === 'cKey').position,
+                    {
+                        y: '-=0.0008',
+                    },
+                    {
+                        y: '+=0.0015',
+                        duration: 0.2,
+
+                    }
+                )
+                .fromTo(
+                    gltf.scene.children.find(child => child.name === 'vKey').position,
+                    {
+                        y: '-=0.0008',
+                    },
+                    {
+                        y: '+=0.0015',
+                        duration: 0.2,
+                        // delay: 2
+                    }
+                )
+                .fromTo(
+                    gltf.scene.children.find(child => child.name === 'hKey').position,
+                    {
+                        y: '-=0.0008',
+                    },
+                    {
+                        y: '+=0.0015',
+                        duration: 0.2,
+
+                    }
+                )
+                .fromTo(
+                    gltf.scene.children.find(child => child.name === 'eKey').position,
+                    {
+                        y: '-=0.0008',
+                    },
+                    {
+                        y: '+=0.0015',
+                        duration: 0.2,
+
+                    }
+                )
+                .fromTo(
+                    gltf.scene.children.find(child => child.name === 'yKey').position,
+                    {
+                        y: '-=0.0008',
+                    },
+                    {
+                        y: '+=0.0015',
+                        duration: 0.2,
+
+                    }
+                )
+                .fromTo(
+                    gltf.scene.children.find(child => child.name === 'spaceKey').position,
+                    {
+                        y: '-=0.0008',
+                    },
+                    {
+                        y: '+=0.001',
+                        duration: 0.2,
+
+                    }
+                )
+        })
+
         const keyboard = gltf.scene.children.find(child => child.name === 'keyboard')
         keyboard.material = bakedMaterial5
+
+        const ctrlKey = gltf.scene.children.find(child => child.name === 'ctrlKey')
+        ctrlKey.material = bakedMaterial5
+
+        const cKey = gltf.scene.children.find(child => child.name === 'cKey')
+        cKey.material = bakedMaterial5
+
+        const vKey = gltf.scene.children.find(child => child.name === 'vKey')
+        vKey.material = bakedMaterial5
+
+        const hKey = gltf.scene.children.find(child => child.name === 'hKey')
+        hKey.material = bakedMaterial5
+
+        const eKey = gltf.scene.children.find(child => child.name === 'eKey')
+        eKey.material = bakedMaterial5
+
+        const yKey = gltf.scene.children.find(child => child.name === 'yKey')
+        yKey.material = bakedMaterial5
+
+        const spaceKey = gltf.scene.children.find(child => child.name === 'spaceKey')
+        spaceKey.material = bakedMaterial5
 
         const eminemMesh = gltf.scene.children.find(child => child.name === 'eminem')
         eminemMesh.material = bakedMaterial4
@@ -285,7 +394,6 @@ gltfLoader.load(
         const topBenchPressMesh = gltf.scene.children.find(child => child.name === 'topbenchPress')
         topBenchPressMesh.material = topBenchPressMaterial
         topBenchPressMesh.material.side = THREE.DoubleSide
-        
 
         const mogMesh = gltf.scene.children.find(child => child.name === 'mog')
         mogMesh.material = bakedMaterial3
@@ -309,11 +417,10 @@ gltfLoader.load(
         woodsBakeMesh.material = bakedMaterial
 
         const panelLightMesh = gltf.scene.children.find(child => child.name === 'panel')
-        const mirrorLightMesh = gltf.scene.children.find(child => child.name === 'mirror')
+        // const mirrorLightMesh = gltf.scene.children.find(child => child.name === 'mirror')
         const textLightMesh = gltf.scene.children.find(child => child.name === 'text')
 
         panelLightMesh.material = panelMaterial
-        mirrorLightMesh.material = mirrorMaterial
         textLightMesh.material = textMaterial
 
         const wallBakeMesh = gltf.scene.children.find(child => child.name === 'Cube028')
@@ -325,6 +432,20 @@ gltfLoader.load(
         scene.add(gltf.scene)
     }
 )
+
+// Mirror
+const geometry = new THREE.PlaneGeometry( 1, 2.5 )
+const groundMirror = new Reflector( geometry, {
+	clipBias: 0.003,
+	textureWidth: window.innerWidth * window.devicePixelRatio,
+	textureHeight: window.innerHeight * window.devicePixelRatio,
+	color: 0x777777
+})
+groundMirror.position.x = -4.23
+groundMirror.position.y = 0.5
+groundMirror.position.z = 3.59
+groundMirror.rotateX( - Math.PI + 0.031 )
+scene.add(groundMirror)
 
 /**
  * Points of interest
@@ -373,7 +494,7 @@ window.addEventListener('resize', () =>
  * Camera
  */
 // Base camera
-const camera = new THREE.PerspectiveCamera(25, sizes.width / sizes.height, 0.1, 100)
+const camera = new THREE.PerspectiveCamera(25, sizes.width / sizes.height, 1, 100)
 camera.position.set(-8, 8, -20)
 camera.updateMatrixWorld()
 
@@ -381,12 +502,14 @@ scene.add(camera)
 
 // Controls
 const controls = new OrbitControls(camera, canvas)
+controls.autoRotate = true
+controls.autoRotateSpeed = 0.05
 controls.enableDamping = true
-controls.screenSpacePanning = true
+// controls.screenSpacePanning = false
 controls.zoomSpeed = 0.8
+// controls.minDistance = 0.2
 controls.maxDistance = 40
 controls.maxPolarAngle = 0.5 * Math.PI
-controls.update()
 
 /**
  * Renderer
@@ -399,6 +522,28 @@ renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 renderer.outputEncoding = THREE.sRGBEncoding
 renderer.setClearColor('rgb(40, 40, 40)')
+
+
+// let scrollY = window.scrollY
+// window.addEventListener('keydown', (e) =>
+// {
+//     // scrollY = window.scrollY
+
+//     if (e.key === 'ArrowDown')
+//     {
+//         gsap.to(
+//             camera.position,
+//             {
+//                 duration: 1.5,
+//                 ease: 'power2.inOut',
+//                 x: '+=6',
+//                 y: '+=3',
+//                 z: '+=1.5'
+//             }
+//         )
+//     }
+// })
+
 
 /**
  * Animate
@@ -414,7 +559,7 @@ const tick = () =>
 
     // Update materials
     panelMaterial.uniforms.uTime.value = elapsedTime
-    mirrorMaterial.uniforms.uTime.value = elapsedTime
+    // mirrorMaterial.uniforms.uTime.value = elapsedTime
     coffeeSteamMaterial.uniforms.uTime.value = elapsedTime
 
     // Update mixer
