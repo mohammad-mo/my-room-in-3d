@@ -21,6 +21,31 @@ const point2 = document.querySelector('.point-2')
 const text = document.getElementById('text')
 const text1 = document.getElementById('text1')
 const cursor =  document.getElementById('cursor')
+const cursoIcon =  document.querySelector('.cursor-icon')
+
+// Hide the cursor for mobile devices
+const isDevice = (() => {
+  let ua = navigator.userAgent
+
+  if (typeof navigator == "undefined") 
+  {
+    cursoIcon.style.opacity = 1
+  } 
+  else if (
+    ua.match(/Android/i) ||
+    ua.match(/BlackBerry/i) ||
+    ua.match(/IEMobile/i) ||
+    ua.match(/iPhone|iPad|iPod/i) ||
+    (
+      ua.match(/Mac/) &&
+      navigator.maxTouchPoints &&
+      navigator.maxTouchPoints > 2
+    ) ||
+    ua.match(/Opera Mini/i)
+  ) {
+    cursoIcon.style.opacity = 0
+  }
+})()
 
 //Functions for showing and hiding the cursor
 //They are referenced the 

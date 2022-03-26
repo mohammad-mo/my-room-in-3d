@@ -360,11 +360,11 @@ a {
   transform: scale(1.5);
 }
 
-@media screen and (max-width: 768px) {
+/* @media screen and (max-width: 768px) {
   .cursor-icon {
     opacity: 0;
   }
-}
+} */
 
 /* Loading(spinner) */
 .spinner-container {
