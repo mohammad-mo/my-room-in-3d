@@ -21,17 +21,13 @@ const point2 = document.querySelector('.point-2')
 const text = document.getElementById('text')
 const text1 = document.getElementById('text1')
 const cursor =  document.getElementById('cursor')
-const cursoIcon =  document.querySelector('.cursor-icon')
+const cursoIcon =  document.querySelector('.cursor-icon');
 
 // Hide the cursor for mobile devices
-const isDevice = (() => {
+(function isDevice() {
   let ua = navigator.userAgent
 
-  if (typeof navigator == "undefined") 
-  {
-    cursoIcon.style.opacity = 1
-  } 
-  else if (
+  if (
     ua.match(/Android/i) ||
     ua.match(/BlackBerry/i) ||
     ua.match(/IEMobile/i) ||
@@ -68,7 +64,7 @@ const hideCursor = () =>
   cursor.classList.add('cursor_hidden')
 }
 
-const mousemove = (e) => 
+const mouseMove = (e) => 
 {
   //Function to correctly position the cursor
   showCursor() //Toggle show/hide
@@ -80,7 +76,7 @@ const mousemove = (e) =>
 }
 
 //Eventlisteners
-window.addEventListener('mousemove', mousemove) //Attach an event listener
+window.addEventListener('mousemove', mouseMove) //Attach an event listener
 document.body.addEventListener('mouseleave', hideCursor)
 
 //Hover behaviour
