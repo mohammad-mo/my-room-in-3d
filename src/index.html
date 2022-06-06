@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
 
     <meta itemprop=name content="Mohammad's Portfolio">
-    <meta itemprop="description" content="creative front-end developer based in iran.">
+    <meta itemprop="description" content="Creative front-end developer based in iran.">
 
     <meta property="og:site_name" content="Mohammad's Portfolio">
     <meta property="og:type" content="website">
@@ -15,10 +16,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Amatic+SC&display=swap" rel="stylesheet">
-    
+
     <title>Mohammad's Portfolio</title>
     <script src="https://kit.fontawesome.com/edbd603d7b.js" crossorigin="anonymous"></script>
+    <script src="./isDevice.js" defer></script>
+    <script src="./customCursor.js" defer></script>
 </head>
+
 <body>
     <div id="cursor" class="cursor">
         <div class="cursor-icon"></div>
@@ -41,14 +45,23 @@
     <div class="point point-1">
         <div class="label">📲</div>
         <div id="text1">
-            <a class="socials" href="https://github.com/mohammad-mo" target="blank"><i class="fab fa-github github"></i><span class="socials-span">GitHub</span></a>
-            <a class="socials" href="mailto:mohammadmahone@gmail.com" target="blank"><i class="far fa-envelope mail"></i></i><span class="socials-span">E-mail</span></a>
+            <a class="socials" href="https://github.com/mohammad-mo" target="blank"><i
+                    class="fab fa-github github"></i><span class="socials-span">GitHub</span></a>
+            <a class="socials" href="mailto:mohammadmahone@gmail.com" target="blank"><i
+                    class="far fa-envelope mail"></i></i><span class="socials-span">E-mail</span></a>
         </div>
     </div>
     <div class="point point-2">
         <div class="label1"><span class="click">Click</span></div>
     </div>
-    <div class="spinner-container">
+    <div class="coffee-container">
+        <div class="coffee">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <!-- <div class="spinner-container">
         <div class="spinner">
             <div class="rect1"></div>
             <div class="rect2"></div>
@@ -56,11 +69,8 @@
             <div class="rect4"></div>
             <div class="rect5"></div>
         </div>
-    </div>
+    </div> -->
     <canvas class="webgl"></canvas>
-    <!-- <section id="loading-screen">
-        <!-- <div id="loader"></div> -->
-        <div class="loader">Loading...</div>
-    </section> -->
 </body>
+
 </html>

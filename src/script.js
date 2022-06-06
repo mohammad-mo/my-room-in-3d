@@ -1,14 +1,14 @@
 import './style.css'
 import gsap from 'gsap'
 import * as THREE from 'three'
-import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js'
-import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import { Reflector } from 'three/examples/jsm/objects/Reflector'
 import panelVertexShader from './shaders/panel/vertex.glsl'
 import panelFragmentShader from './shaders/panel/fragment.glsl'
-import mirrorVertexShader from './shaders/mirror/vertex.glsl'
-import mirrorFragmentShader from './shaders/mirror/fragment.glsl'
+// import mirrorVertexShader from './shaders/mirror/vertex.glsl'
+// import mirrorFragmentShader from './shaders/mirror/fragment.glsl'
 import coffeeSteamVertexShader from './shaders/coffeeSteam/vertex.glsl'
 import coffeeSteamFragmentShader from './shaders/coffeeSteam/fragment.glsl'
 
@@ -20,97 +20,7 @@ const point1 = document.querySelector('.point-1')
 const point2 = document.querySelector('.point-2')
 const text = document.getElementById('text')
 const text1 = document.getElementById('text1')
-const cursor =  document.getElementById('cursor')
-const cursoIcon =  document.querySelector('.cursor-icon');
-
-// Hide the cursor for mobile devices
-(function isDevice() {
-  let ua = navigator.userAgent
-
-  if (
-    ua.match(/Android/i) ||
-    ua.match(/BlackBerry/i) ||
-    ua.match(/IEMobile/i) ||
-    ua.match(/iPhone|iPad|iPod/i) ||
-    (
-      ua.match(/Mac/) &&
-      navigator.maxTouchPoints &&
-      navigator.maxTouchPoints > 2
-    ) ||
-    ua.match(/Opera Mini/i)
-  ) {
-    cursoIcon.style.opacity = 0
-  }
-})()
-
-//Functions for showing and hiding the cursor
-//They are referenced the 
-const showCursor = () => 
-{
-  //Function to show/hide the cursor
-  if (cursor.classList.contains('rjs_cursor_hidden')) 
-  {
-    cursor.classList.remove('cursor_hidden')
-  }
-  cursor.classList.add('cursor_visible')
-}
-
-const hideCursor = () => 
-{
-  if (cursor.classList.contains('cursor_visible')) 
-  {
-    cursor.classList.remove('cursor_visible')
-  }
-  cursor.classList.add('cursor_hidden')
-}
-
-const mouseMove = (e) => 
-{
-  //Function to correctly position the cursor
-  showCursor() //Toggle show/hide
-  const cursorWidth = cursor.offsetWidth * 0.5
-  const cursorHeight = cursor.offsetHeight * 0.5
-  const cursorX = e.clientX - cursorWidth //x-coordinate
-  const cursorY = e.clientY - cursorHeight //y-coordinate
-    cursor.style.transform = `translate(${cursorX}px, ${cursorY}px)`
-}
-
-//Eventlisteners
-window.addEventListener('mousemove', mouseMove) //Attach an event listener
-document.body.addEventListener('mouseleave', hideCursor)
-
-//Hover behaviour
-const hoverCursor = () =>
-{
-  cursor.classList.add('cursor_hover')
-}
-
-const unhoverCursor = () =>
-{
-  cursor.classList.remove('cursor_hover')
-}
-
-document.querySelectorAll('a').forEach((item) => 
-{
-  item.addEventListener('mouseover', hoverCursor)
-  item.addEventListener('mouseleave', unhoverCursor)
-})
-
-playButton.addEventListener('mouseover', hoverCursor)
-playButton.addEventListener('mouseleave', unhoverCursor)
-
-pauseButton.addEventListener('mouseover', hoverCursor)
-pauseButton.addEventListener('mouseleave', unhoverCursor)
-
-point0.addEventListener('mouseover', hoverCursor)
-point0.addEventListener('mouseleave', unhoverCursor)
-
-point1.addEventListener('mouseover', hoverCursor)
-point1.addEventListener('mouseleave', unhoverCursor)
-
-point2.addEventListener('mouseover', hoverCursor)
-point2.addEventListener('mouseleave', unhoverCursor)
-
+const cursor = document.getElementById('cursor')
 
 playButton.style.opacity = 0
 playButton.style.transition = 'opacity 0.5s'
@@ -121,35 +31,27 @@ musicElement.style.transition = 'opacity 0.5s'
 cursor.style.opacity = 0
 cursor.style.transition = 'opacity 0.3s'
 
+'mousemove click'.split(' ').forEach((e) => {
+  point0.addEventListener(e, () => {
+    text.style.opacity = 1
 
-"mousemove click".split(" ").forEach((e) =>
-{
-    point0.addEventListener(e, () =>
-    {
-        text.style.opacity = 1
-
-        setTimeout(() =>
-        {
-            text.style.opacity = 0
-        }, 10000)
-    })
+    setTimeout(() => {
+      text.style.opacity = 0
+    }, 10000)
+  })
 })
 
-"mousemove click".split(" ").forEach((e) =>
-{
-    point1.addEventListener(e, () =>
-    {
-        text1.style.opacity = 1
-        text1.style.pointerEvents = 'initial'
+'mousemove click'.split(' ').forEach((e) => {
+  point1.addEventListener(e, () => {
+    text1.style.opacity = 1
+    text1.style.pointerEvents = 'initial'
 
-        setTimeout(() =>
-        {
-            text1.style.opacity = 0
-            text1.style.pointerEvents = 'none'
-        }, 10000)
-    })
+    setTimeout(() => {
+      text1.style.opacity = 0
+      text1.style.pointerEvents = 'none'
+    }, 10000)
+  })
 })
-
 
 /**
  * Sound
@@ -157,18 +59,15 @@ cursor.style.transition = 'opacity 0.3s'
 const sound = new Audio('/sound/Harris Heller - Ambient Gold.mp3')
 const sound1 = new Audio('/sound/music1.mp3')
 
-playButton.addEventListener('click', () =>
-{
-    sound.play()
+playButton.addEventListener('click', () => {
+  sound.play()
 })
-pauseButton.addEventListener('click', () =>
-{
-    sound.pause()
+pauseButton.addEventListener('click', () => {
+  sound.pause()
 })
 
-point2.addEventListener('click', () =>
-{
-    sound1.play()
+point2.addEventListener('click', () => {
+  sound1.play()
 })
 
 // Canvas
@@ -178,27 +77,23 @@ const canvas = document.querySelector('canvas.webgl')
 const scene = new THREE.Scene()
 
 /**
-* Loaders
-*/
-const onTransitionEnd = (event) =>
-{
-    event.target.remove()
+ * Loaders
+ */
+const onTransitionEnd = (event) => {
+  event.target.remove()
 }
 
 let sceneReady = false
-const loadingManager = new THREE.LoadingManager( () => 
-{
-    const loadingScreen = document.querySelector('.spinner-container')
-    loadingScreen.classList.add('fade-out')
-    
-    // optional: remove loader from DOM via event listener
-    loadingScreen.addEventListener('transitionend', onTransitionEnd)
+const loadingManager = new THREE.LoadingManager(() => {
+  const loadingScreen = document.querySelector('.coffee-container')
+  loadingScreen.classList.add('fade-out')
 
-    window.setTimeout(() =>
-      {
-          sceneReady = true
-      }, 4000)
-    
+  // optional: remove loader from DOM via event listener
+  loadingScreen.addEventListener('transitionend', onTransitionEnd)
+
+  window.setTimeout(() => {
+    sceneReady = true
+  }, 4000)
 })
 // Texture loader
 const textureLoader = new THREE.TextureLoader(loadingManager)
@@ -213,20 +108,19 @@ gltfLoader.setDRACOLoader(dracoLoader)
 
 // panel material
 const panelMaterial = new THREE.ShaderMaterial({
-    uniforms:
-    {  
-        uTime: { value: 0 },
-        uColorStart: { value: new THREE.Color(0x5e6573) },
-        uColorEnd: { value: new THREE.Color(0xbb4ccf) }
-    },
-    vertexShader: panelVertexShader,
-    fragmentShader: panelFragmentShader
+  uniforms: {
+    uTime: { value: 0 },
+    uColorStart: { value: new THREE.Color(0x5e6573) },
+    uColorEnd: { value: new THREE.Color(0xbb4ccf) },
+  },
+  vertexShader: panelVertexShader,
+  fragmentShader: panelFragmentShader,
 })
 
 // Mirror material
 // const mirrorMaterial = new THREE.ShaderMaterial({
 //     uniforms:
-//     {  
+//     {
 //         uTime: { value: 0 },
 //         uColorStart: { value: new THREE.Color(0x5e6573) },
 //         uColorEnd: { value: new THREE.Color(0xeba834) }
@@ -245,17 +139,16 @@ const topBenchPressMaterial = new THREE.MeshBasicMaterial({ color: 0x141414 })
 
 // Coffee steam
 const coffeeSteamMaterial = new THREE.ShaderMaterial({
-    uniforms:
-    {
-        uTimeFrequency: { value: 0.0004 },
-        vUvFrequency: { value: new THREE.Vector2(4, 5) },
-        uTime: { value: 0 },
-        uColor: { value: new THREE.Color(0xb0b0b0) }
-    },
-    vertexShader: coffeeSteamVertexShader,
-    fragmentShader: coffeeSteamFragmentShader,
-    transparent: true,
-    depthWrite: false
+  uniforms: {
+    uTimeFrequency: { value: 0.0004 },
+    vUvFrequency: { value: new THREE.Vector2(4, 5) },
+    uTime: { value: 0 },
+    uColor: { value: new THREE.Color(0xb0b0b0) },
+  },
+  vertexShader: coffeeSteamVertexShader,
+  fragmentShader: coffeeSteamFragmentShader,
+  transparent: true,
+  depthWrite: false,
 })
 
 /**
@@ -291,178 +184,196 @@ bakedTexture5.encoding = THREE.sRGBEncoding
  * Model
  */
 let mixer = null
-gltfLoader.load(
-    'room.glb',
-    (gltf) =>
+gltfLoader.load('room.glb', (gltf) => {
+  const tl = gsap.timeline({
+    ease: 'power2.inOut',
+    repeat: '-1',
+    yoyo: true,
+  })
+  tl.fromTo(
+    gltf.scene.children.find((child) => child.name === 'ctrlKey').position,
     {
-            const tl = gsap.timeline({ 
-                ease: 'power2.inOut',
-                repeat: '-1',
-                yoyo: true
-            })
-            tl
-                .fromTo(
-                    gltf.scene.children.find(child => child.name === 'ctrlKey').position,
-                    {
-                        y: '-=0.0008',
-                    },
-                    {
-                        y: '+=0.0015',
-                        duration: 0.2,
-                    }
-                )
-                .fromTo(
-                    gltf.scene.children.find(child => child.name === 'cKey').position,
-                    {
-                        y: '-=0.0008',
-                    },
-                    {
-                        y: '+=0.0015',
-                        duration: 0.2,
+      y: '-=0.0008',
+    },
+    {
+      y: '+=0.0015',
+      duration: 0.2,
+    },
+  )
+    .fromTo(
+      gltf.scene.children.find((child) => child.name === 'cKey').position,
+      {
+        y: '-=0.0008',
+      },
+      {
+        y: '+=0.0015',
+        duration: 0.2,
+      },
+    )
+    .fromTo(
+      gltf.scene.children.find((child) => child.name === 'vKey').position,
+      {
+        y: '-=0.0008',
+      },
+      {
+        y: '+=0.0015',
+        duration: 0.2,
+        // delay: 2
+      },
+    )
+    .fromTo(
+      gltf.scene.children.find((child) => child.name === 'hKey').position,
+      {
+        y: '-=0.0008',
+      },
+      {
+        y: '+=0.0015',
+        duration: 0.2,
+      },
+    )
+    .fromTo(
+      gltf.scene.children.find((child) => child.name === 'eKey').position,
+      {
+        y: '-=0.0008',
+      },
+      {
+        y: '+=0.0015',
+        duration: 0.2,
+      },
+    )
+    .fromTo(
+      gltf.scene.children.find((child) => child.name === 'yKey').position,
+      {
+        y: '-=0.0008',
+      },
+      {
+        y: '+=0.0015',
+        duration: 0.2,
+      },
+    )
+    .fromTo(
+      gltf.scene.children.find((child) => child.name === 'spaceKey').position,
+      {
+        y: '-=0.0008',
+      },
+      {
+        y: '+=0.001',
+        duration: 0.2,
+      },
+    )
 
-                    }
-                )
-                .fromTo(
-                    gltf.scene.children.find(child => child.name === 'vKey').position,
-                    {
-                        y: '-=0.0008',
-                    },
-                    {
-                        y: '+=0.0015',
-                        duration: 0.2,
-                        // delay: 2
-                    }
-                )
-                .fromTo(
-                    gltf.scene.children.find(child => child.name === 'hKey').position,
-                    {
-                        y: '-=0.0008',
-                    },
-                    {
-                        y: '+=0.0015',
-                        duration: 0.2,
+  const keyboard = gltf.scene.children.find(
+    (child) => child.name === 'keyboard',
+  )
+  keyboard.material = bakedMaterial5
 
-                    }
-                )
-                .fromTo(
-                    gltf.scene.children.find(child => child.name === 'eKey').position,
-                    {
-                        y: '-=0.0008',
-                    },
-                    {
-                        y: '+=0.0015',
-                        duration: 0.2,
+  const ctrlKey = gltf.scene.children.find((child) => child.name === 'ctrlKey')
+  ctrlKey.material = bakedMaterial5
 
-                    }
-                )
-                .fromTo(
-                    gltf.scene.children.find(child => child.name === 'yKey').position,
-                    {
-                        y: '-=0.0008',
-                    },
-                    {
-                        y: '+=0.0015',
-                        duration: 0.2,
+  const cKey = gltf.scene.children.find((child) => child.name === 'cKey')
+  cKey.material = bakedMaterial5
 
-                    }
-                )
-                .fromTo(
-                    gltf.scene.children.find(child => child.name === 'spaceKey').position,
-                    {
-                        y: '-=0.0008',
-                    },
-                    {
-                        y: '+=0.001',
-                        duration: 0.2,
+  const vKey = gltf.scene.children.find((child) => child.name === 'vKey')
+  vKey.material = bakedMaterial5
 
-                    }
-                )
+  const hKey = gltf.scene.children.find((child) => child.name === 'hKey')
+  hKey.material = bakedMaterial5
 
-        const keyboard = gltf.scene.children.find(child => child.name === 'keyboard')
-        keyboard.material = bakedMaterial5
+  const eKey = gltf.scene.children.find((child) => child.name === 'eKey')
+  eKey.material = bakedMaterial5
 
-        const ctrlKey = gltf.scene.children.find(child => child.name === 'ctrlKey')
-        ctrlKey.material = bakedMaterial5
+  const yKey = gltf.scene.children.find((child) => child.name === 'yKey')
+  yKey.material = bakedMaterial5
 
-        const cKey = gltf.scene.children.find(child => child.name === 'cKey')
-        cKey.material = bakedMaterial5
+  const spaceKey = gltf.scene.children.find(
+    (child) => child.name === 'spaceKey',
+  )
+  spaceKey.material = bakedMaterial5
 
-        const vKey = gltf.scene.children.find(child => child.name === 'vKey')
-        vKey.material = bakedMaterial5
+  const eminemMesh = gltf.scene.children.find(
+    (child) => child.name === 'eminem',
+  )
+  eminemMesh.material = bakedMaterial4
 
-        const hKey = gltf.scene.children.find(child => child.name === 'hKey')
-        hKey.material = bakedMaterial5
+  const eminemBackMesh = gltf.scene.children.find(
+    (child) => child.name === 'eminemBack',
+  )
+  eminemBackMesh.material = eminemBackMaterial
+  eminemBackMesh.material.side = THREE.BackSide
 
-        const eKey = gltf.scene.children.find(child => child.name === 'eKey')
-        eKey.material = bakedMaterial5
+  const topBenchPressMesh = gltf.scene.children.find(
+    (child) => child.name === 'topbenchPress',
+  )
+  topBenchPressMesh.material = topBenchPressMaterial
+  topBenchPressMesh.material.side = THREE.DoubleSide
 
-        const yKey = gltf.scene.children.find(child => child.name === 'yKey')
-        yKey.material = bakedMaterial5
+  const mogMesh = gltf.scene.children.find((child) => child.name === 'mog')
+  mogMesh.material = bakedMaterial3
 
-        const spaceKey = gltf.scene.children.find(child => child.name === 'spaceKey')
-        spaceKey.material = bakedMaterial5
+  const coffeSteamMesh = gltf.scene.children.find(
+    (child) => child.name === 'coffeSteam',
+  )
+  coffeSteamMesh.material = coffeeSteamMaterial
 
-        const eminemMesh = gltf.scene.children.find(child => child.name === 'eminem')
-        eminemMesh.material = bakedMaterial4
+  const WoodsBakeBlackMesh = gltf.scene.children.find(
+    (child) => child.name === 'Cube',
+  )
+  WoodsBakeBlackMesh.material = bakedMaterial1
 
-        const eminemBackMesh = gltf.scene.children.find(child => child.name === 'eminemBack')
-        eminemBackMesh.material = eminemBackMaterial
-        eminemBackMesh.material.side = THREE.BackSide
+  const chairTopMesh = gltf.scene.children.find(
+    (child) => child.name === 'chairTop',
+  )
+  mixer = new THREE.AnimationMixer(gltf.scene)
+  const action = mixer.clipAction(gltf.animations[0])
+  action.play()
+  chairTopMesh.material = bakedMaterial1
 
-        const topBenchPressMesh = gltf.scene.children.find(child => child.name === 'topbenchPress')
-        topBenchPressMesh.material = topBenchPressMaterial
-        topBenchPressMesh.material.side = THREE.DoubleSide
+  const flowerBakeMesh = gltf.scene.children.find(
+    (child) => child.name === 'flowers',
+  )
+  flowerBakeMesh.material = bakedMaterial1
 
-        const mogMesh = gltf.scene.children.find(child => child.name === 'mog')
-        mogMesh.material = bakedMaterial3
+  const woodsBakeMesh = gltf.scene.children.find(
+    (child) => child.name === 'Cube008',
+  )
+  woodsBakeMesh.material = bakedMaterial
 
-        const coffeSteamMesh = gltf.scene.children.find(child => child.name === 'coffeSteam')
-        coffeSteamMesh.material = coffeeSteamMaterial
+  const panelLightMesh = gltf.scene.children.find(
+    (child) => child.name === 'panel',
+  )
+  // const mirrorLightMesh = gltf.scene.children.find(child => child.name === 'mirror')
+  const textLightMesh = gltf.scene.children.find(
+    (child) => child.name === 'text',
+  )
 
-        const WoodsBakeBlackMesh = gltf.scene.children.find(child => child.name === 'Cube')
-        WoodsBakeBlackMesh.material = bakedMaterial1
+  panelLightMesh.material = panelMaterial
+  textLightMesh.material = textMaterial
 
-        const chairTopMesh = gltf.scene.children.find(child => child.name === 'chairTop')
-        mixer = new THREE.AnimationMixer(gltf.scene)
-        const action = mixer.clipAction(gltf.animations[0])
-        action.play()
-        chairTopMesh.material = bakedMaterial1
+  const wallBakeMesh = gltf.scene.children.find(
+    (child) => child.name === 'Cube028',
+  )
+  wallBakeMesh.material = bakedMaterial2
 
-        const flowerBakeMesh = gltf.scene.children.find(child => child.name === 'flowers')
-        flowerBakeMesh.material = bakedMaterial1
-        
-        const woodsBakeMesh = gltf.scene.children.find(child => child.name === 'Cube008')
-        woodsBakeMesh.material = bakedMaterial
+  const lastBakedMesh = gltf.scene.children.find(
+    (child) => child.name === 'Cube001',
+  )
+  lastBakedMesh.material = bakedMaterial3
 
-        const panelLightMesh = gltf.scene.children.find(child => child.name === 'panel')
-        // const mirrorLightMesh = gltf.scene.children.find(child => child.name === 'mirror')
-        const textLightMesh = gltf.scene.children.find(child => child.name === 'text')
-
-        panelLightMesh.material = panelMaterial
-        textLightMesh.material = textMaterial
-
-        const wallBakeMesh = gltf.scene.children.find(child => child.name === 'Cube028')
-        wallBakeMesh.material = bakedMaterial2
-
-        const lastBakedMesh = gltf.scene.children.find(child => child.name === 'Cube001')
-        lastBakedMesh.material = bakedMaterial3
-
-        scene.add(gltf.scene)
-    }
-)
+  scene.add(gltf.scene)
+})
 
 // Mirror
-const geometry = new THREE.PlaneGeometry( 1, 2.5 )
-const groundMirror = new Reflector( geometry, {
-	clipBias: 0.003,
-	textureWidth: window.innerWidth * window.devicePixelRatio,
-	textureHeight: window.innerHeight * window.devicePixelRatio,
-	color: 0x777777
+const geometry = new THREE.PlaneGeometry(1, 2.5)
+const groundMirror = new Reflector(geometry, {
+  clipBias: 0.003,
+  textureWidth: window.innerWidth * window.devicePixelRatio,
+  textureHeight: window.innerHeight * window.devicePixelRatio,
+  color: 0x777777,
 })
 groundMirror.position.x = -4.23
 groundMirror.position.y = 0.5
 groundMirror.position.z = 3.59
-groundMirror.rotateX( - Math.PI + 0.031 )
+groundMirror.rotateX(-Math.PI + 0.031)
 scene.add(groundMirror)
 
 /**
@@ -470,49 +381,52 @@ scene.add(groundMirror)
  */
 const raycaster = new THREE.Raycaster()
 const points = [
-    {
-        position: new THREE.Vector3(- 1.0, 0.5, 3.3),
-        element: document.querySelector('.point-0')
-    },
-    {
-        position: new THREE.Vector3(2.5, 0.8, 4.5),
-        element: document.querySelector('.point-1')
-    },
-    {
-        position: new THREE.Vector3(- 2.23, 0.4, 3.025),
-        element: document.querySelector('.point-2')
-    }
+  {
+    position: new THREE.Vector3(-1.0, 0.5, 3.3),
+    element: document.querySelector('.point-0'),
+  },
+  {
+    position: new THREE.Vector3(2.5, 0.8, 4.5),
+    element: document.querySelector('.point-1'),
+  },
+  {
+    position: new THREE.Vector3(-2.23, 0.4, 3.025),
+    element: document.querySelector('.point-2'),
+  },
 ]
-
 
 /**
  * Sizes
  */
 const sizes = {
-    width: window.innerWidth,
-    height: window.innerHeight
+  width: window.innerWidth,
+  height: window.innerHeight,
 }
 
-window.addEventListener('resize', () =>
-{
-    // Update sizes
-    sizes.width = window.innerWidth
-    sizes.height = window.innerHeight
+window.addEventListener('resize', () => {
+  // Update sizes
+  sizes.width = window.innerWidth
+  sizes.height = window.innerHeight
 
-    // Update camera
-    camera.aspect = sizes.width / sizes.height
-    camera.updateProjectionMatrix()
+  // Update camera
+  camera.aspect = sizes.width / sizes.height
+  camera.updateProjectionMatrix()
 
-    // Update renderer
-    renderer.setSize(sizes.width, sizes.height)
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+  // Update renderer
+  renderer.setSize(sizes.width, sizes.height)
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 })
 
 /**
  * Camera
  */
 // Base camera
-const camera = new THREE.PerspectiveCamera(25, sizes.width / sizes.height, 1, 100)
+const camera = new THREE.PerspectiveCamera(
+  25,
+  sizes.width / sizes.height,
+  1,
+  100,
+)
 camera.position.set(-8, 8, -20)
 camera.updateMatrixWorld()
 
@@ -533,35 +447,13 @@ controls.maxPolarAngle = 0.5 * Math.PI
  * Renderer
  */
 const renderer = new THREE.WebGLRenderer({
-    canvas: canvas,
-    antialias: true
+  canvas: canvas,
+  antialias: true,
 })
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 renderer.outputEncoding = THREE.sRGBEncoding
 renderer.setClearColor('rgb(40, 40, 40)')
-
-
-// let scrollY = window.scrollY
-// window.addEventListener('keydown', (e) =>
-// {
-//     // scrollY = window.scrollY
-
-//     if (e.key === 'ArrowDown')
-//     {
-//         gsap.to(
-//             camera.position,
-//             {
-//                 duration: 1.5,
-//                 ease: 'power2.inOut',
-//                 x: '+=6',
-//                 y: '+=3',
-//                 z: '+=1.5'
-//             }
-//         )
-//     }
-// })
-
 
 /**
  * Animate
@@ -569,72 +461,62 @@ renderer.setClearColor('rgb(40, 40, 40)')
 const clock = new THREE.Clock()
 let previousTime = 0
 
-const tick = () =>
-{
-    const elapsedTime = clock.getElapsedTime()
-    const deltaTime = elapsedTime - previousTime
-    previousTime = elapsedTime
+const tick = () => {
+  const elapsedTime = clock.getElapsedTime()
+  const deltaTime = elapsedTime - previousTime
+  previousTime = elapsedTime
 
-    // Update materials
-    panelMaterial.uniforms.uTime.value = elapsedTime
-    // mirrorMaterial.uniforms.uTime.value = elapsedTime
-    coffeeSteamMaterial.uniforms.uTime.value = elapsedTime
+  // Update materials
+  panelMaterial.uniforms.uTime.value = elapsedTime
+  // mirrorMaterial.uniforms.uTime.value = elapsedTime
+  coffeeSteamMaterial.uniforms.uTime.value = elapsedTime
 
-    // Update mixer
-    if(mixer !== null)
-    {
-        mixer.update(deltaTime)
-    }
+  // Update mixer
+  if (mixer !== null) {
+    mixer.update(deltaTime)
+  }
 
-    // Update controls
-    controls.update()
+  // Update controls
+  controls.update()
 
-    if (sceneReady)
-    {
-        playButton.style.opacity = 1
-        pauseButton.style.opacity = 1
-        musicElement.style.opacity = 1
-        cursor.style.opacity = 1
-        
+  if (sceneReady) {
+    playButton.style.opacity = 1
+    pauseButton.style.opacity = 1
+    musicElement.style.opacity = 1
+    cursor.style.opacity = 1
+
     // Go through each point
-    for(const point of points)
-    {
-        const screenPosition = point.position.clone()
-        screenPosition.project(camera)
+    for (const point of points) {
+      const screenPosition = point.position.clone()
+      screenPosition.project(camera)
 
-        raycaster.setFromCamera(screenPosition, camera)
-        const intersects = raycaster.intersectObjects(scene.children, true)
+      raycaster.setFromCamera(screenPosition, camera)
+      const intersects = raycaster.intersectObjects(scene.children, true)
 
-        if(intersects.length === 0)
-        {
-            point.element.classList.add('visible')
+      if (intersects.length === 0) {
+        point.element.classList.add('visible')
+      } else {
+        const intersectionDistance = intersects[0].distance
+        const pointDistance = point.position.distanceTo(camera.position)
+
+        if (intersectionDistance < pointDistance) {
+          point.element.classList.remove('visible')
+        } else {
+          point.element.classList.add('visible')
         }
-        else
-        {
-            const intersectionDistance = intersects[0].distance
-            const pointDistance = point.position.distanceTo(camera.position)
+      }
 
-            if(intersectionDistance < pointDistance)
-            {
-                point.element.classList.remove('visible')   
-            }
-            else
-            {
-                point.element.classList.add('visible') 
-            }
-        }
-        
-        const translateX = screenPosition.x * sizes.width * 0.5
-        const translateY = - screenPosition.y * sizes.height * 0.5
-        point.element.style.transform = `translate(${translateX}px, ${translateY}px)`
+      const translateX = screenPosition.x * sizes.width * 0.5
+      const translateY = -screenPosition.y * sizes.height * 0.5
+      point.element.style.transform = `translate(${translateX}px, ${translateY}px)`
     }
-}
+  }
 
-    // Render
-    renderer.render(scene, camera)
+  // Render
+  renderer.render(scene, camera)
 
-    // Call tick again on the next frame
-    window.requestAnimationFrame(tick)
+  // Call tick again on the next frame
+  window.requestAnimationFrame(tick)
 }
 
 tick()
