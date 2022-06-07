@@ -21,6 +21,7 @@ const point2 = document.querySelector('.point-2')
 const text = document.getElementById('text')
 const text1 = document.getElementById('text1')
 const cursor = document.getElementById('cursor')
+const cursoIcon = document.querySelector('.cursor-icon')
 
 playButton.style.opacity = 0
 playButton.style.transition = 'opacity 0.5s'
@@ -30,6 +31,24 @@ musicElement.style.opacity = 0
 musicElement.style.transition = 'opacity 0.5s'
 cursor.style.opacity = 0
 cursor.style.transition = 'opacity 0.3s'
+
+// Hide the cursor for mobile devices
+;(function isDevice() {
+  let ua = navigator.userAgent
+
+  if (
+    ua.match(/Android/i) ||
+    ua.match(/BlackBerry/i) ||
+    ua.match(/IEMobile/i) ||
+    ua.match(/iPhone|iPad|iPod/i) ||
+    (ua.match(/Mac/) &&
+      navigator.maxTouchPoints &&
+      navigator.maxTouchPoints > 2) ||
+    ua.match(/Opera Mini/i)
+  ) {
+    cursoIcon.style.opacity = 0
+  }
+})()
 
 'mousemove click'.split(' ').forEach((e) => {
   point0.addEventListener(e, () => {
