@@ -50,6 +50,45 @@ cursor.style.transition = 'opacity 0.3s'
   }
 })()
 
+// Custom cursor
+const mouseMove = (e) => {
+  const cursorWidth = cursor.offsetWidth * 0.5
+  const cursorHeight = cursor.offsetHeight * 0.5
+  const cursorX = e.clientX - cursorWidth
+  const cursorY = e.clientY - cursorHeight
+  cursor.style.transform = `translate(${cursorX}px, ${cursorY}px)`
+}
+
+const hoverCursor = () => {
+  cursor.classList.add('cursorHover')
+}
+
+const unhoverCursor = () => {
+  cursor.classList.remove('cursorHover')
+}
+
+window.addEventListener('mousemove', mouseMove)
+
+document.querySelectorAll('a').forEach((item) => {
+  item.addEventListener('mouseover', hoverCursor)
+  item.addEventListener('mouseleave', unhoverCursor)
+})
+
+playButton.addEventListener('mouseover', hoverCursor)
+playButton.addEventListener('mouseleave', unhoverCursor)
+
+pauseButton.addEventListener('mouseover', hoverCursor)
+pauseButton.addEventListener('mouseleave', unhoverCursor)
+
+point0.addEventListener('mouseover', hoverCursor)
+point0.addEventListener('mouseleave', unhoverCursor)
+
+point1.addEventListener('mouseover', hoverCursor)
+point1.addEventListener('mouseleave', unhoverCursor)
+
+point2.addEventListener('mouseover', hoverCursor)
+point2.addEventListener('mouseleave', unhoverCursor)
+
 'mousemove click'.split(' ').forEach((e) => {
   point0.addEventListener(e, () => {
     text.style.opacity = 1
