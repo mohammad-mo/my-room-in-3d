@@ -270,8 +270,16 @@ body {
 
 .socials {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-around;
   align-items: center;
+}
+
+.socials i {
+  width: 30%;
+}
+
+.socials span {
+  width: 70%;
 }
 
 .click {
@@ -285,7 +293,8 @@ body {
 }
 
 .github,
-.mail {
+.mail,
+.linkedin {
   font-size: 28px;
   color: #fff;
   padding-bottom: 4px;
