@@ -1,4 +1,4 @@
-//	Classic Perlin 2D Noise 
+//	Classic Perlin 2D Noise
 //	by Stefan Gustavson
 //
 vec2 fade(vec2 t) {return t*t*t*(t*(t*6.0-15.0)+10.0);}
@@ -21,7 +21,7 @@ float perlin2d(vec2 P){
   vec2 g10 = vec2(gx.y,gy.y);
   vec2 g01 = vec2(gx.z,gy.z);
   vec2 g11 = vec2(gx.w,gy.w);
-  vec4 norm = 1.79284291400159 - 0.85373472095314 * 
+  vec4 norm = 1.79284291400159 - 0.85373472095314 *
     vec4(dot(g00, g00), dot(g01, g01), dot(g10, g10), dot(g11, g11));
   g00 *= norm.x;
   g01 *= norm.y;
