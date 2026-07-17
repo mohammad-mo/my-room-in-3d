@@ -1,33 +1,35 @@
 {
+  "name": "my-room-in-3d",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "description": "An interactive 3D portfolio room built with React Three Fiber.",
   "scripts": {
-    "build": "webpack --config ./bundler/webpack.prod.js",
-    "dev": "set NODE_OPTIONS=--openssl-legacy-provider && webpack serve --config ./bundler/webpack.dev.js"
-  },
-  "dependencies": {
-    "@babel/core": "^7.15.0",
-    "@babel/preset-env": "^7.15.0",
-    "babel-loader": "^8.2.2",
-    "buffer-alloc": "^1.2.0",
-    "clean-webpack-plugin": "^3.0.0",
-    "copy-webpack-plugin": "^7.0.0",
-    "css-loader": "^5.2.7",
-    "dat.gui": "^0.7.7",
-    "file-loader": "^6.2.0",
-    "glslify-loader": "^2.0.0",
-    "gsap": "^3.9.1",
-    "html-loader": "^2.1.2",
-    "html-webpack-plugin": "^5.3.2",
-    "mini-css-extract-plugin": "^1.6.2",
-    "portfinder-sync": "^0.0.2",
-    "raw-loader": "^4.0.2",
-    "style-loader": "^2.0.0",
-    "three": "^0.126.1",
-    "webpack": "^5.51.1",
-    "webpack-cli": "^4.8.0",
-    "webpack-dev-server": "^3.11.2",
-    "webpack-merge": "^5.8.0"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "biome check . && tsc --noEmit",
+    "format": "biome format --write ."
   },
   "engines": {
-    "node": "22.x"
+    "node": ">=20.19.0"
+  },
+  "dependencies": {
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.6.1",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "three": "^0.185.1"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.4",
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@types/three": "^0.185.1",
+    "@vitejs/plugin-react": "^6.0.3",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^7.0.2",
+    "vite": "^8.1.5"
   }
 }

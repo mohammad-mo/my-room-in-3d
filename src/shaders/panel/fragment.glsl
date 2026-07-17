@@ -3,7 +3,7 @@ uniform float uTime;
 uniform vec3 uColorStart;
 uniform vec3 uColorEnd;
 
-//	Classic Perlin 3D Noise 
+//	Classic Perlin 3D Noise
 //	by Stefan Gustavson
 //
 vec4 permute(vec4 x){return mod(((x*34.0)+1.0)*x, 289.0);}
@@ -74,10 +74,10 @@ float cnoise(vec3 P){
   vec3 fade_xyz = fade(Pf0);
   vec4 n_z = mix(vec4(n000, n100, n010, n110), vec4(n001, n101, n011, n111), fade_xyz.z);
   vec2 n_yz = mix(n_z.xy, n_z.zw, fade_xyz.y);
-  float n_xyz = mix(n_yz.x, n_yz.y, fade_xyz.x); 
+  float n_xyz = mix(n_yz.x, n_yz.y, fade_xyz.x);
   return 2.2 * n_xyz;
 }
-//	Classic Perlin 3D Noise 
+//	Classic Perlin 3D Noise
 
 void main()
 {
@@ -88,7 +88,7 @@ void main()
     strength = clamp(strength, 0.0, 1.0);
 
     // Final color
-    vec3 color = mix(uColorStart * 0.7, uColorEnd * 2.0, strength);
+    vec3 color = mix(uColorStart * 2.0, uColorEnd * 2.0, strength);
 
     gl_FragColor = vec4(color, 1.0);
 }
