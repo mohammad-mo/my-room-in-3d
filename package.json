@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:car-collision": "node scripts/build-car-collision.mjs",
     "preview": "vite preview",
     "check": "biome check . && tsc --noEmit",
     "format": "biome format --write ."
@@ -17,6 +18,7 @@
   "dependencies": {
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.6.1",
+    "cannon-es": "^0.20.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "three": "^0.185.1"

@@ -31,7 +31,14 @@ function GestureIcon({ type }: { type: GestureType }) {
   )
 }
 
-export function ControlsGuide({ ready }: { ready: boolean }) {
+export function ControlsGuide({
+  ready,
+  hidden = false,
+}: {
+  ready: boolean
+  /** Driving puts its own hints along the bottom; two bars would collide. */
+  hidden?: boolean
+}) {
   const [touch, setTouch] = useState(false)
   const [open, setOpen] = useState(false)
 
@@ -54,19 +61,24 @@ export function ControlsGuide({ ready }: { ready: boolean }) {
     ? [
         ['orbit', 'One finger', 'Orbit + tilt'],
         ['zoom', 'Pinch', 'Zoom in + out'],
-        ['pan', 'Two fingers', 'Move the view'],
+        ['pan', 'Joystick', 'Drive the car'],
       ]
     : [
         ['orbit', 'Left drag', 'Orbit + tilt'],
         ['zoom', 'Scroll', 'Zoom in + out'],
-        ['pan', 'Right drag', 'Move the view'],
+        ['pan', 'WASD', 'Drive the car'],
       ]
+
+  const shown = open && !hidden
+  // Touch screens carry the joystick along the bottom, so the panel sits above
+  // it rather than on top of it.
+  const bottom = touch ? 'bottom-[11.25rem]' : 'bottom-[1.35rem]'
 
   return (
     <>
       <aside
-        className={`fixed bottom-[1.35rem] left-1/2 z-[18] w-[min(34rem,calc(100vw-15rem))] rounded-2xl border border-white/15 bg-[#0d0f10]/85 p-3 shadow-[0_1.5rem_4rem_rgb(0_0_0_/_35%)] backdrop-blur-2xl transition-[opacity,transform] duration-[450ms] ease-[cubic-bezier(0.16,1,0.3,1)] max-[700px]:bottom-[4.8rem] max-[700px]:w-[calc(100vw-1.5rem)] max-[700px]:p-[0.7rem] ${open ? '-translate-x-1/2 translate-y-0 scale-100 opacity-100 pointer-events-auto' : '-translate-x-1/2 translate-y-4 scale-[0.97] opacity-0 pointer-events-none'}`}
-        aria-hidden={!open}
+        className={`fixed ${bottom} left-1/2 z-[18] w-[min(34rem,calc(100vw-15rem))] rounded-2xl border border-white/15 bg-[#0d0f10]/85 p-3 shadow-[0_1.5rem_4rem_rgb(0_0_0_/_35%)] backdrop-blur-2xl transition-[opacity,transform] duration-[450ms] ease-[cubic-bezier(0.16,1,0.3,1)] max-[700px]:w-[calc(100vw-1.5rem)] max-[700px]:p-[0.7rem] ${shown ? '-translate-x-1/2 translate-y-0 scale-100 opacity-100 pointer-events-auto' : '-translate-x-1/2 translate-y-4 scale-[0.97] opacity-0 pointer-events-none'}`}
+        aria-hidden={!shown}
       >
         <div className="flex items-center justify-between px-1 pt-[0.2rem] pb-[0.7rem]">
           <div className="grid gap-[0.08rem]">
@@ -106,8 +118,10 @@ export function ControlsGuide({ ready }: { ready: boolean }) {
         </div>
       </aside>
 
+      {/* The pill would land between the joystick and its buttons, so phones
+          get the panel on load and nothing after it. */}
       <button
-        className={`fixed bottom-[1.55rem] left-1/2 z-[17] flex items-center gap-[0.45rem] rounded-full border border-white/20 bg-[#0f1113]/70 px-3 py-[0.55rem] text-[0.62rem] font-semibold tracking-[0.11em] text-white/60 uppercase backdrop-blur-xl transition-[color,border-color,opacity,transform] duration-300 cursor-[url('/cursor-ring-active.svg')_16_16,_pointer] hover:border-[#ffea2b] hover:text-[#ffea2b] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ffea2b] ${ready && !open ? '-translate-x-1/2 translate-y-0 opacity-100 pointer-events-auto' : '-translate-x-1/2 translate-y-2 opacity-0 pointer-events-none'}`}
+        className={`fixed bottom-[1.55rem] left-1/2 z-[17] ${touch ? 'hidden' : 'flex'} items-center gap-[0.45rem] rounded-full border border-white/20 bg-[#0f1113]/70 px-3 py-[0.55rem] text-[0.62rem] font-semibold tracking-[0.11em] text-white/60 uppercase backdrop-blur-xl transition-[color,border-color,opacity,transform] duration-300 cursor-[url('/cursor-ring-active.svg')_16_16,_pointer] hover:border-[#ffea2b] hover:text-[#ffea2b] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ffea2b] ${ready && !open && !hidden ? '-translate-x-1/2 translate-y-0 opacity-100 pointer-events-auto' : '-translate-x-1/2 translate-y-2 opacity-0 pointer-events-none'}`}
         type="button"
         onClick={() => setOpen(true)}
         aria-label="Show navigation controls"

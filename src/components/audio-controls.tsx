@@ -2,6 +2,8 @@ type AudioControlsProps = {
   ready: boolean
   isPlaying: boolean
   onToggle: () => void | Promise<void>
+  /** Drops the track name so it cannot collide with the driving hints. */
+  compact?: boolean
 }
 
 function SoundIcon({ playing }: { playing: boolean }) {
@@ -18,12 +20,19 @@ function SoundIcon({ playing }: { playing: boolean }) {
   )
 }
 
-export function AudioControls({ ready, isPlaying, onToggle }: AudioControlsProps) {
+export function AudioControls({
+  ready,
+  isPlaying,
+  onToggle,
+  compact = false,
+}: AudioControlsProps) {
   return (
     <div
       className={`fixed right-[clamp(1.25rem,4vw,3.5rem)] bottom-[clamp(1.25rem,3vw,2.5rem)] z-10 flex items-center gap-[0.85rem] text-white transition-[opacity,transform] duration-600 ease-[cubic-bezier(0.16,1,0.3,1)] ${ready ? 'translate-y-0 opacity-100' : 'translate-y-[0.65rem] opacity-0'}`}
     >
-      <div className="grid gap-[0.12rem] text-right max-[700px]:hidden">
+      <div
+        className={`grid gap-[0.12rem] text-right transition-opacity duration-300 max-[700px]:hidden ${compact ? 'pointer-events-none opacity-0' : 'opacity-100'}`}
+      >
         <span className="text-[0.62rem] font-semibold tracking-[0.12em] text-white/50 uppercase">
           {isPlaying ? 'Now playing' : 'Room ambience'}
         </span>

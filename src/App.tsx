@@ -125,6 +125,7 @@ export default function App() {
   const audio = useRoomAudio()
   const [ready, setReady] = useState(false)
   const [sceneReady, setSceneReady] = useState(false)
+  const [driving, setDriving] = useState(false)
 
   return (
     <main className="relative size-full overflow-hidden bg-[#282828] font-['DM_Sans',system-ui,sans-serif] text-[#f5f5ef] antialiased selection:bg-[#ffea2b] selection:text-[#111315] cursor-[url('/cursor-ring.svg')_12_12,_default]">
@@ -142,16 +143,22 @@ export default function App() {
           in three dimensions.
         </h1>
         <p className="mt-[1.1rem] max-w-[27rem] text-[clamp(0.84rem,1.1vw,1rem)] leading-[1.55] text-white/70 max-[700px]:max-w-72">
-          Drag to look around. Tap the glowing markers to discover more.
+          Drag to look around. Tap the glowing markers — or hop in the car and take it for
+          a drive.
         </p>
       </header>
 
-      <Experience onPlayKeyboard={audio.playKeyboard} onSceneReady={setSceneReady} />
-      <ControlsGuide ready={ready} />
+      <Experience
+        onPlayKeyboard={audio.playKeyboard}
+        onSceneReady={setSceneReady}
+        onDrivingChange={setDriving}
+      />
+      <ControlsGuide ready={ready} hidden={driving} />
       <AudioControls
         ready={ready}
         isPlaying={audio.isPlaying}
         onToggle={audio.toggleAmbient}
+        compact={driving}
       />
     </main>
   )
