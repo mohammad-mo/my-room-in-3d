@@ -35,10 +35,12 @@ const UP = new CANNON.Vec3(0, 0, 1)
 const SPAWN_QUAT = new CANNON.Quaternion().setFromAxisAngle(UP, SPAWN_YAW)
 
 /**
- * How far past the room the car may roam before it is sent home. The doorway is
- * open, so driving out is allowed; it just doesn't last.
+ * How far past the room the car may roam. The doorway is open, so driving out
+ * is allowed: the car gets this much room outside and then runs into an
+ * invisible fence, instead of being teleported back to the bed. This is the one
+ * knob for how big that outdoor yard is.
  */
-const ROAM_MARGIN = 2
+const ROAM_MARGIN = 10
 
 const ROAM = {
   minX: (collision.room.min[0] - ROAM_MARGIN - SPAWN.x) / CAR_SCALE,
@@ -46,6 +48,14 @@ const ROAM = {
   minY: -(collision.room.max[1] + ROAM_MARGIN - SPAWN.z) / CAR_SCALE,
   maxY: -(collision.room.min[1] - ROAM_MARGIN - SPAWN.z) / CAR_SCALE,
 }
+
+/**
+ * The fence around `ROAM`, in physics units. Tall enough that a hop (about half
+ * a unit of air) can't clear it, and thick enough that a boosted step (under a
+ * unit of travel) can't tunnel through it.
+ */
+const FENCE_HALF_HEIGHT = 3
+const FENCE_HALF_THICKNESS = 2
 
 export const OPTIONS = {
   chassisWidth: 1.02,
@@ -147,6 +157,51 @@ export function createCarPhysics(): CarPhysics {
     world.addBody(body)
   }
 
+  // Invisible fence around the roam area. Past the doorway the car keeps going
+  // for `ROAM_MARGIN` and then simply can't go any further, so it is never taken
+  // away from wherever it was left. The side slabs run long so the corners are
+  // sealed too.
+  const fenceSpanX = (ROAM.maxX - ROAM.minX) / 2
+  const fenceSpanY = (ROAM.maxY - ROAM.minY) / 2
+  const fenceMidX = (ROAM.minX + ROAM.maxX) / 2
+  const fenceMidY = (ROAM.minY + ROAM.maxY) / 2
+  const fences: [CANNON.Vec3, CANNON.Vec3][] = [
+    [
+      new CANNON.Vec3(FENCE_HALF_THICKNESS, fenceSpanY, FENCE_HALF_HEIGHT),
+      new CANNON.Vec3(ROAM.minX - FENCE_HALF_THICKNESS, fenceMidY, FENCE_HALF_HEIGHT),
+    ],
+    [
+      new CANNON.Vec3(FENCE_HALF_THICKNESS, fenceSpanY, FENCE_HALF_HEIGHT),
+      new CANNON.Vec3(ROAM.maxX + FENCE_HALF_THICKNESS, fenceMidY, FENCE_HALF_HEIGHT),
+    ],
+    [
+      new CANNON.Vec3(
+        fenceSpanX + FENCE_HALF_THICKNESS * 2,
+        FENCE_HALF_THICKNESS,
+        FENCE_HALF_HEIGHT,
+      ),
+      new CANNON.Vec3(fenceMidX, ROAM.minY - FENCE_HALF_THICKNESS, FENCE_HALF_HEIGHT),
+    ],
+    [
+      new CANNON.Vec3(
+        fenceSpanX + FENCE_HALF_THICKNESS * 2,
+        FENCE_HALF_THICKNESS,
+        FENCE_HALF_HEIGHT,
+      ),
+      new CANNON.Vec3(fenceMidX, ROAM.maxY + FENCE_HALF_THICKNESS, FENCE_HALF_HEIGHT),
+    ],
+  ]
+  for (const [halfExtents, position] of fences) {
+    const body = new CANNON.Body({
+      mass: 0,
+      material: floorMaterial,
+      shape: new CANNON.Box(halfExtents),
+    })
+    body.position.copy(position)
+    body.updateAABB()
+    world.addBody(body)
+  }
+
   const chassisBody = new CANNON.Body({ mass: OPTIONS.chassisMass })
   chassisBody.allowSleep = false
   chassisBody.addShape(
@@ -244,10 +299,13 @@ export function isCarAtMirror(physics: CarPhysics) {
   return x > MIRROR.minX && x < MIRROR.maxX && y > MIRROR.minY && y < MIRROR.maxY
 }
 
-/** True once the car has strayed too far from the room to come back on its own. */
+/**
+ * True only when the car has dropped out of the world entirely, which the fence
+ * and the floor plane should never allow. Straying outside the room no longer
+ * counts: the car stays wherever it was driven to.
+ */
 export function isCarLost(physics: CarPhysics) {
-  const { x, y, z } = physics.chassisBody.position
-  return x < ROAM.minX || x > ROAM.maxX || y < ROAM.minY || y > ROAM.maxY || z < -5
+  return physics.chassisBody.position.z < -5
 }
 
 /** Puts the car back where it started, parked on the bed. */

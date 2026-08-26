@@ -28,6 +28,12 @@ import {
  * on X and scaled down to toy size, sitting on the room's real floor height.
  */
 const CHASSIS_MODEL_OFFSET = new THREE.Vector3(0, 0, -0.28)
+/**
+ * The wheel meshes are a hair larger than the physics wheels they follow, so at
+ * rest the tyres read as sunk into the floor. Lifting the whole rig by this much
+ * (world units) sets them back on top of it without touching the simulation.
+ */
+const RIDE_LIFT = 0.025
 const WHEEL_FLIP = new CANNON.Quaternion().setFromAxisAngle(
   new CANNON.Vec3(0, 0, 1),
   Math.PI,
@@ -272,8 +278,10 @@ export function Car({ driving, onToggleDriving, onHitMirror, carRef }: CarProps)
     stepCarPhysics(physics, current, input, dt)
 
     // --- leaving the room -------------------------------------------------
-    // Driving out of the door is allowed; wander far enough and the car winks
-    // out and is put back on the bed where it started.
+    // Driving out of the door is allowed: there is a yard's worth of space out
+    // there and then an invisible fence, so the car stays where it was driven
+    // instead of being sent back to the bed. The reset below is only the safety
+    // net for falling out of the world altogether.
     const rig = rigRef.current
     if (respawnAt.current > 0) {
       if (frame.clock.elapsedTime >= respawnAt.current) {
@@ -378,7 +386,7 @@ export function Car({ driving, onToggleDriving, onHitMirror, carRef }: CarProps)
   return (
     <group
       ref={rigRef}
-      position={[SPAWN.x, SPAWN.y, SPAWN.z]}
+      position={[SPAWN.x, SPAWN.y + RIDE_LIFT, SPAWN.z]}
       rotation={[-Math.PI / 2, 0, 0]}
       scale={CAR_SCALE}
     >
