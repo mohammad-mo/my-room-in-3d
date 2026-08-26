@@ -84,8 +84,11 @@ export function Room({ onReady, occluderRef }: RoomProps) {
       steam: new THREE.ShaderMaterial({
         uniforms: {
           uTime: { value: 0 },
-          uTimeFrequency: { value: 0.0004 },
-          vUvFrequency: { value: new THREE.Vector2(4, 5) },
+          // `uTime` is in seconds here, so this is uv per second: the old
+          // 0.0004 came from his millisecond clock and left the plume frozen.
+          uTimeFrequency: { value: 0.32 },
+          vUvFrequency: { value: new THREE.Vector2(2, 2.5) },
+          uOpacity: { value: 0.55 },
           uColor: { value: new THREE.Color('#b0b0b0') },
         },
         vertexShader: coffeeSteamVertexShader,
