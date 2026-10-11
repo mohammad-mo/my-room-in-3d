@@ -17,7 +17,7 @@ export function header(
   headers: Record<string, string | string[] | undefined>,
   name: string,
 ) {
-  const value = headers[name] ?? headers[name.toLowerCase()]
+  const value = headers?.[name] ?? headers?.[name.toLowerCase()]
   const raw = Array.isArray(value) ? value[0] : value
   if (!raw) return ''
   try {

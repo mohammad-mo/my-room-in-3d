@@ -1,4 +1,4 @@
-import { metaFromHeaders, sendRoomEmail, type VisitMeta, visitLines } from './mail'
+import { metaFromHeaders, sendRoomEmail, type VisitMeta, visitLines } from './_mail.js'
 
 type NodeRequest = {
   method?: string
@@ -37,11 +37,16 @@ export async function recordVisit(
 }
 
 export default async function handler(req: NodeRequest, res: NodeResponse) {
-  if (req.method !== 'POST') {
-    res.status(405).json({ error: 'Method not allowed' })
-    return
-  }
+  try {
+    if (req.method !== 'POST') {
+      res.status(405).json({ error: 'Method not allowed' })
+      return
+    }
 
-  const result = await recordVisit(req.body, metaFromHeaders(req.headers))
-  res.status(result.status).json(result.body)
+    const result = await recordVisit(req.body, metaFromHeaders(req.headers ?? {}))
+    res.status(result.status).json(result.body)
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ error: 'The email could not be sent. Try again.' })
+  }
 }
