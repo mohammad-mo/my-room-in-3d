@@ -6,8 +6,6 @@ export type VisitMeta = {
   ip: string
 }
 
-export type RoomEmail = { subject: string; message: string }
-
 export function header(
   headers: Record<string, string | string[] | undefined>,
   name: string,

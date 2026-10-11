@@ -1,4 +1,4 @@
-import { metaFromHeaders, sendRoomEmail, type VisitMeta, visitLines } from './_mail.js'
+import { metaFromHeaders, type VisitMeta, visitLines } from './_mail.js'
 
 type NodeRequest = {
   method?: string
@@ -16,34 +16,41 @@ function text(value: unknown, max: number): string {
   return value.trim().slice(0, max)
 }
 
-export async function recordVisit(
+export function recordVisit(
   raw: unknown,
   meta: VisitMeta,
-): Promise<{ status: number; body: { ok: true } | { error: string } }> {
+): {
+  status: number
+  body: { ok: true; subject: string; message: string } | { error: string }
+} {
   const body = raw && typeof raw === 'object' ? (raw as Record<string, unknown>) : {}
-  if (text(body.website, 200)) return { status: 200, body: { ok: true } }
+  if (text(body.website, 200)) {
+    return { status: 200, body: { ok: true, subject: '', message: '' } }
+  }
 
-  const sent = await sendRoomEmail(
-    'Someone opened the room',
-    visitLines(
-      meta,
-      text(body.page, 500),
-      text(body.referrer, 500),
-      text(body.language, 40),
-    ).join('\n'),
-  )
-  if ('error' in sent) return { status: 502, body: sent }
-  return { status: 200, body: { ok: true } }
+  return {
+    status: 200,
+    body: {
+      ok: true,
+      subject: 'Someone opened the room',
+      message: visitLines(
+        meta,
+        text(body.page, 500),
+        text(body.referrer, 500),
+        text(body.language, 40),
+      ).join('\n'),
+    },
+  }
 }
 
-export default async function handler(req: NodeRequest, res: NodeResponse) {
+export default function handler(req: NodeRequest, res: NodeResponse) {
   try {
     if (req.method !== 'POST') {
       res.status(405).json({ error: 'Method not allowed' })
       return
     }
 
-    const result = await recordVisit(req.body, metaFromHeaders(req.headers ?? {}))
+    const result = recordVisit(req.body, metaFromHeaders(req.headers ?? {}))
     res.status(result.status).json(result.body)
   } catch (error) {
     console.error(error)

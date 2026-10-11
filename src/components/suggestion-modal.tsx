@@ -1,5 +1,6 @@
 import { useEffect, useId, useRef, useState } from 'react'
 import { releaseKeyboardInput } from '../car-input'
+import { sendRoomEmail } from '../mail'
 
 const NOTE_AFTER_MS = 90_000
 const STORAGE_KEY = 'room-note'
@@ -145,10 +146,20 @@ export function SuggestionModal({ ready, paused }: SuggestionModalProps) {
           language: navigator.language,
         }),
       })
-      const body = (await response.json().catch(() => null)) as { error?: string } | null
-      if (!response.ok) {
+      const body = (await response.json().catch(() => null)) as {
+        error?: string
+        subject?: string
+        message?: string
+      } | null
+      if (!response.ok || !body?.subject || !body.message) {
         setStatus('error')
         setError(body?.error || 'The note could not be sent. Try again.')
+        return
+      }
+      const sent = await sendRoomEmail({ subject: body.subject, message: body.message })
+      if ('error' in sent) {
+        setStatus('error')
+        setError(sent.error)
         return
       }
       remember('sent')

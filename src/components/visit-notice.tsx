@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { sendRoomEmail } from '../mail'
 
 let noticeStarted = false
 
@@ -19,8 +20,21 @@ export function VisitNotice() {
             language: navigator.language,
           }),
         })
-        if (response.ok) window.sessionStorage.setItem('room-visit', 'sent')
-        else noticeStarted = false
+        const body = (await response.json().catch(() => null)) as {
+          ok?: true
+          subject?: string
+          message?: string
+        } | null
+        if (!response.ok || !body?.subject || !body.message) {
+          noticeStarted = false
+          return
+        }
+        const sent = await sendRoomEmail({ subject: body.subject, message: body.message })
+        if ('error' in sent) {
+          noticeStarted = false
+          return
+        }
+        window.sessionStorage.setItem('room-visit', 'sent')
       } catch {
         noticeStarted = false
       }
