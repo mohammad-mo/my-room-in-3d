@@ -25,6 +25,15 @@ export function setKeyboardAction(action: CarAction, pressed: boolean) {
   keyboard[action] = pressed
 }
 
+export function releaseKeyboardInput() {
+  Object.assign(keyboard, empty())
+}
+
+/** The suggestion form uses the same keys as the car, so driving pauses while it is open. */
+export function drivingKeysSuspended(): boolean {
+  return document.querySelector('[role="dialog"]') !== null
+}
+
 export function setTouchInput(next: Partial<CarInput>) {
   Object.assign(touch, next)
 }

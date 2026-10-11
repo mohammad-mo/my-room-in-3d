@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from 'react'
 import { AudioControls } from './components/audio-controls'
 import { ControlsGuide } from './components/controls-guide'
 import { Experience } from './components/experience'
+import { SuggestionModal } from './components/suggestion-modal'
+import { VisitNotice } from './components/visit-notice'
 
 type LoaderProps = {
   sceneReady: boolean
@@ -130,6 +132,7 @@ export default function App() {
   return (
     <main className="relative size-full overflow-hidden bg-[#282828] font-['DM_Sans',system-ui,sans-serif] text-[#f5f5ef] antialiased selection:bg-[#ffea2b] selection:text-[#111315] cursor-[url('/cursor-ring.svg')_12_12,_default]">
       <Loader sceneReady={sceneReady} onReady={setReady} />
+      <VisitNotice />
 
       <header
         className={`pointer-events-none fixed top-[clamp(1.25rem,4vw,3.75rem)] left-[clamp(1.25rem,5vw,5rem)] z-10 w-[min(31rem,calc(100vw-2.5rem))] select-none drop-shadow-[0_2px_18px_rgb(0_0_0_/_35%)] transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] max-[700px]:top-5 max-[700px]:left-5 ${ready ? 'translate-y-0 opacity-100' : 'translate-y-3 opacity-0'}`}
@@ -154,6 +157,7 @@ export default function App() {
         onDrivingChange={setDriving}
       />
       <ControlsGuide ready={ready} hidden={driving} />
+      <SuggestionModal ready={ready} paused={driving} />
       <AudioControls
         ready={ready}
         isPlaying={audio.isPlaying}

@@ -5,7 +5,13 @@ import type { MutableRefObject } from 'react'
 import { useEffect, useMemo, useRef } from 'react'
 import * as THREE from 'three'
 import { playCarHit, playCarHorn, playGlassBreak } from '../car-audio'
-import { honk, onHonk, readCarInput, setKeyboardAction } from '../car-input'
+import {
+  drivingKeysSuspended,
+  honk,
+  onHonk,
+  readCarInput,
+  setKeyboardAction,
+} from '../car-input'
 import {
   attachCarPhysics,
   CAR_SCALE,
@@ -83,6 +89,7 @@ function useKeyboard() {
     }
 
     const onDown = (event: KeyboardEvent) => {
+      if (drivingKeysSuspended()) return
       if (
         [
           'KeyW',

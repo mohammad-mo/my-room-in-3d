@@ -4,6 +4,7 @@ import type { ComponentRef, RefObject } from 'react'
 import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
 import { Reflector } from 'three/examples/jsm/objects/Reflector.js'
+import { drivingKeysSuspended } from '../car-input'
 import { createGlassCracks } from '../glass-cracks'
 import { Car } from './car'
 import type { CameraFocus } from './hotspots'
@@ -334,7 +335,7 @@ export function Experience({
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
-      if (event.code === 'Escape' && driving) {
+      if (event.code === 'Escape' && driving && !drivingKeysSuspended()) {
         event.preventDefault()
         toggleDriving()
       }
