@@ -1,6 +1,6 @@
 import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
-import { defineConfig, loadEnv, type Plugin } from 'vite'
+import { defineConfig, type Plugin } from 'vite'
 
 type DevRequest = {
   url?: string
@@ -48,22 +48,10 @@ function readBody(req: DevRequest): Promise<unknown> {
   })
 }
 
-function applyMailEnv(fileEnv: Record<string, string>) {
-  const runtime = globalThis as {
-    process?: { env: Record<string, string | undefined> }
-  }
-  const env = runtime.process?.env
-  if (!env) return
-  for (const key of ['SITE', 'MAIL_TO']) {
-    if (fileEnv[key]) env[key] = fileEnv[key]
-  }
-}
-
-function suggestionDevApi(fileEnv: Record<string, string>): Plugin {
+function suggestionDevApi(): Plugin {
   return {
     name: 'suggestion-dev-api',
     configureServer(server) {
-      applyMailEnv(fileEnv)
       server.middlewares.use(async (req, res, next) => {
         const request = req as DevRequest
         const response = res as DevResponse
@@ -118,9 +106,6 @@ function suggestionDevApi(fileEnv: Record<string, string>): Plugin {
   }
 }
 
-export default defineConfig(({ mode }) => {
-  const fileEnv = loadEnv(mode, '.', '')
-  return {
-    plugins: [react(), tailwindcss(), suggestionDevApi(fileEnv)],
-  }
+export default defineConfig({
+  plugins: [react(), tailwindcss(), suggestionDevApi()],
 })

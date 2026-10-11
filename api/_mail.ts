@@ -6,12 +6,8 @@ export type VisitMeta = {
   ip: string
 }
 
-function envValue(name: string): string {
-  const runtime = globalThis as {
-    process?: { env?: Record<string, string | undefined> }
-  }
-  return runtime.process?.env?.[name]?.trim() ?? ''
-}
+const SITE = 'https://mohammads-portfolio.vercel.app'
+const MAIL_TO = 'mohammadmahone@gmail.com'
 
 export function header(
   headers: Record<string, string | string[] | undefined>,
@@ -93,22 +89,15 @@ export async function sendRoomEmail(
   subject: string,
   message: string,
 ): Promise<{ ok: true } | { error: string }> {
-  const site = envValue('SITE')
-  const recipient = envValue('MAIL_TO')
-  if (!site || !recipient) {
-    console.error('Missing SITE or MAIL_TO. Add them to .env.')
-    return { error: 'The email could not be sent. Try again.' }
-  }
-
   let response: Response
   try {
-    response = await fetch(`https://formsubmit.co/ajax/${recipient}`, {
+    response = await fetch(`https://formsubmit.co/ajax/${MAIL_TO}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
-        Origin: site,
-        Referer: `${site}/`,
+        Origin: SITE,
+        Referer: `${SITE}/`,
       },
       body: JSON.stringify({
         _subject: subject,
@@ -116,7 +105,7 @@ export async function sendRoomEmail(
         _captcha: 'false',
         message,
       }),
-      signal: AbortSignal.timeout(8000),
+      signal: AbortSignal.timeout(15000),
     })
   } catch {
     return { error: 'The email could not be sent. Try again.' }
@@ -131,7 +120,7 @@ export async function sendRoomEmail(
 
   if (!response.ok || result.success === false || result.success === 'false') {
     console.error('Room email failed', result.message ?? response.status)
-    return { error: 'The email could not be sent. Try again.' }
+    return { error: result.message || 'The email could not be sent. Try again.' }
   }
 
   return { ok: true }
